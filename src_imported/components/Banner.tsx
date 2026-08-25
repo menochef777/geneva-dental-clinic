@@ -22,7 +22,7 @@ export const Banner: React.FC<BannerProps> = ({
   const pillItems: PillNavItem[] = [
     { label: isFr ? 'Accueil' : 'Home', href: '#' },
     { label: isFr ? 'Expertise' : 'Expertise', href: '#expertise-section' },
-    { label: isFr ? 'Médecin' : 'Doctor', href: '#expert-section' },
+    { label: isFr ? 'Clinique' : 'Clinic', href: '#expert-section' },
     { label: isFr ? 'Avis' : 'Reviews', href: '#testimonials-section' },
     { label: isFr ? 'FAQ' : 'FAQ', href: '#faq-section' },
     { label: isFr ? 'Cliniques' : 'Clinics', href: '#contact-section' },
