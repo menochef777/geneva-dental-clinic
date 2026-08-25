@@ -1,0 +1,2460 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Geneva Dental Clinic — Restore Your True Smile</title>
+
+  <!-- Google Fonts: Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Montserrat', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+          },
+          colors: {
+            silver: {
+              100: '#f8fafc',
+              200: '#e2e8f0',
+              300: '#cbd5e1',
+              400: '#94a3b8',
+              500: '#64748b',
+            }
+          },
+          animation: {
+            'spin-slow': 'spin 20s linear infinite',
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'shimmer': 'shimmer 3s ease-in-out infinite',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- GSAP for PillNav motion animation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <style>
+    * {
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #000000;
+      color: #e2e8f0;
+      overflow-x: hidden;
+    }
+
+    /* ========================================================
+       PILL NAV MOTION COMPONENT (REACT BITS)
+       ======================================================== */
+    .pill-nav-container {
+      width: 100%;
+      position: relative;
+      z-index: 50;
+    }
+
+    .pill-nav {
+      --nav-h: 46px;
+      --logo: 46px;
+      --pill-pad-x: 18px;
+      --pill-gap: 4px;
+      --base: #000000;
+      --pill-bg: rgba(255, 255, 255, 0.95);
+      --hover-text: #ffffff;
+      --pill-text: #090d16;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      box-sizing: border-box;
+    }
+
+    .pill-logo {
+      width: var(--nav-h);
+      height: var(--nav-h);
+      border-radius: 50%;
+      background: var(--base, #000);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 9px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: border-color 0.3s ease;
+    }
+    .pill-logo:hover {
+      border-color: rgba(255, 255, 255, 0.6);
+    }
+
+    .pill-nav-items {
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: var(--nav-h);
+      background: var(--base, #000);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 9999px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    .pill-list {
+      list-style: none;
+      display: flex;
+      align-items: stretch;
+      gap: var(--pill-gap);
+      margin: 0;
+      padding: 3px;
+      height: 100%;
+    }
+
+    .pill-list > li {
+      display: flex;
+      height: 100%;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 var(--pill-pad-x);
+      background: var(--pill-bg, #fff);
+      color: var(--pill-text, #000);
+      text-decoration: none;
+      border-radius: 9999px;
+      box-sizing: border-box;
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pill .hover-circle {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      border-radius: 50%;
+      background: var(--base, #000);
+      z-index: 1;
+      display: block;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    .pill .label-stack {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      z-index: 2;
+      height: 14px;
+    }
+
+    .pill .pill-label {
+      position: relative;
+      z-index: 2;
+      display: inline-block;
+      line-height: 1;
+      will-change: transform;
+    }
+
+    .pill .pill-label-hover {
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--hover-text, #fff);
+      z-index: 3;
+      display: inline-block;
+      white-space: nowrap;
+      will-change: transform, opacity;
+    }
+
+    .pill.is-active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 12px;
+      background: var(--base, #000);
+      border-radius: 50px;
+      z-index: 4;
+    }
+
+    .mobile-menu-button {
+      width: var(--nav-h);
+      height: var(--nav-h);
+      border-radius: 50%;
+      background: var(--base, #000);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      padding: 0;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    @media (max-width: 900px) {
+      .mobile-menu-button {
+        display: flex;
+      }
+      .desktop-only {
+        display: none !important;
+      }
+      .mobile-only {
+        display: block;
+      }
+    }
+
+    .hamburger-line {
+      width: 16px;
+      height: 2px;
+      background: #ffffff;
+      border-radius: 1px;
+      transition: all 0.2s ease;
+      transform-origin: center;
+    }
+
+    .mobile-menu-popover {
+      position: absolute;
+      top: 4.5em;
+      left: 0.5rem;
+      right: 0.5rem;
+      background: rgba(10, 15, 26, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 24px;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7);
+      z-index: 998;
+      opacity: 0;
+      transform-origin: top center;
+      visibility: hidden;
+      padding: 10px;
+    }
+
+    .mobile-menu-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .mobile-menu-popover .mobile-menu-link {
+      display: block;
+      padding: 12px 18px;
+      color: #0f172a;
+      background-color: #ffffff;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-radius: 50px;
+      transition: all 0.2s ease;
+    }
+
+    .mobile-menu-popover .mobile-menu-link:hover {
+      cursor: pointer;
+      background-color: #000000;
+      color: #ffffff;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(226, 232, 240, 0.3);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Canvas background (Full visibility of the 3D scroll video/animation) */
+    #canvas-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      background: #000;
+    }
+
+    #animation-canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+    }
+
+    /* Strictly Transparent Giant Parent Containers (No backdrop blur or dark backgrounds blocking video) */
+    .silver-glass {
+      background: transparent !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    /* Isolated Small Glass Cards (Allows video to show through with subtle frost) */
+    .silver-glass-card {
+      background: rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .silver-glass-card:hover {
+      background: rgba(0, 0, 0, 0.35);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Metallic Silver Typography */
+    .text-silver-gradient {
+      background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 30%, #94a3b8 70%, #f1f5f9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
+    }
+
+    .text-silver-bright {
+      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 60%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .text-silver-subtle {
+      color: #cbd5e1;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Silver Glow & Metallic Button */
+    .silver-button {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(203, 213, 225, 0.85) 100%);
+      color: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+    .silver-button:hover {
+      background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+      box-shadow: 0 12px 30px rgba(255, 255, 255, 0.25), inset 0 1px 0 #ffffff;
+      transform: translateY(-1px);
+    }
+
+    /* Loading progress */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: #000000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
+    }
+    #loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-bar-bg {
+      width: 200px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+    .loader-bar-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #94a3b8, #ffffff);
+      transition: width 0.1s linear;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-black text-silver-200 selection:bg-slate-200 selection:text-slate-900">
+
+  <!-- PRELOADER -->
+  <div id="loader">
+    <div class="flex items-center gap-3 mb-4">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" class="text-silver-200">
+        <path d="M7 3C4.23858 3 2 5.23858 2 8C2 10.3235 3.32832 12.338 5.25301 13.3328C6.01235 13.7253 6.55171 14.4756 6.72124 15.3138L7.54519 19.3879C7.81896 20.7416 9.00693 21.7248 10.3879 21.7248C11.8385 21.7248 13.0145 20.5488 13.0145 19.0982V14.5C13.0145 13.9477 13.4622 13.5 14.0145 13.5C14.5668 13.5 15.0145 13.9477 15.0145 14.5V19.0982C15.0145 20.5488 16.1905 21.7248 17.6411 21.7248C19.0221 21.7248 20.2101 20.7416 20.4838 19.3879L21.3078 15.3138C21.4773 14.4756 22.0167 13.7253 22.776 13.3328C24.7007 12.338 26.029 10.3235 26.029 8C26.029 5.23858 23.7904 3 21.029 3C18.9818 3 17.234 4.23078 16.4831 6.00293C15.9388 5.37894 15.0219 5 14.0145 5C13.0071 5 12.0902 5.37894 11.5459 6.00293C10.795 4.23078 9.04718 3 7 3Z"
+          transform="scale(0.85) translate(1.5, 0.5)" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="text-sm font-bold tracking-widest uppercase text-silver-gradient">Geneva Dental Clinic</span>
+    </div>
+    <div class="loader-bar-bg">
+      <div id="loader-progress" class="loader-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- FIXED CANVAS BACKGROUND (ANIMATED 3D SCROLL SEQUENCE FULLY VISIBLE) -->
+  <div id="canvas-container">
+    <canvas id="animation-canvas"></canvas>
+  </div>
+
+  <!-- MAIN SCROLLABLE CONTENT (100% TRANSPARENT SILVER GLASS OVERLAY) -->
+  <main class="relative z-10 min-h-screen flex flex-col items-center justify-start p-3 sm:p-5 md:p-8 lg:p-10 space-y-12 sm:space-y-16 md:space-y-24">
+
+    <!-- ==========================================
+         SECTION 1: HERO BANNER (STRICTLY TRANSPARENT)
+         ========================================== -->
+    <div class="w-full max-w-[1280px]">
+      <div id="genevadentalclinic-hero-banner" class="relative w-full bg-transparent p-2 sm:p-4 md:p-6 overflow-hidden select-none">
+
+        <!-- PILL NAV MOTION HEADER (REACT BITS COMPONENT) -->
+        <header class="relative z-30 pb-6 sm:pb-10 lg:pb-12">
+          <div class="pill-nav-container">
+            <nav class="pill-nav" aria-label="Primary">
+              
+              <!-- 1. Left: Animated Logo (360deg GSAP rotation on hover) -->
+              <div class="flex items-center gap-3">
+                <a 
+                  href="#" 
+                  class="pill-logo group" 
+                  id="pill-logo-btn"
+                  aria-label="Geneva Dental Clinic"
+                  onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;"
+                >
+                  <svg id="pill-logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-white">
+                    <path d="M7 3C4.23858 3 2 5.23858 2 8C2 10.3235 3.32832 12.338 5.25301 13.3328C6.01235 13.7253 6.55171 14.4756 6.72124 15.3138L7.54519 19.3879C7.81896 20.7416 9.00693 21.7248 10.3879 21.7248C11.8385 21.7248 13.0145 20.5488 13.0145 19.0982V14.5C13.0145 13.9477 13.4622 13.5 14.0145 13.5C14.5668 13.5 15.0145 13.9477 15.0145 14.5V19.0982C15.0145 20.5488 16.1905 21.7248 17.6411 21.7248C19.0221 21.7248 20.2101 20.7416 20.4838 19.3879L21.3078 15.3138C21.4773 14.4756 22.0167 13.7253 22.776 13.3328C24.7007 12.338 26.029 10.3235 26.029 8C26.029 5.23858 23.7904 3 21.029 3C18.9818 3 17.234 4.23078 16.4831 6.00293C15.9388 5.37894 15.0219 5 14.0145 5C13.0071 5 12.0902 5.37894 11.5459 6.00293C10.795 4.23078 9.04718 3 7 3Z"
+                      stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+                <div class="hidden xl:flex flex-col select-none">
+                  <span class="text-sm font-black tracking-tight text-silver-gradient leading-none">
+                    GENEVA <span class="font-light text-silver-400">CLINIC</span>
+                  </span>
+                  <span class="text-[7.5px] uppercase tracking-[0.25em] text-silver-400 font-semibold mt-0.5">
+                    Dental & Aesthetics
+                  </span>
+                </div>
+              </div>
+
+              <!-- 2. Center: Motion Pill Items (Desktop) -->
+              <div class="pill-nav-items desktop-only" id="pill-nav-items-wrapper">
+                <ul class="pill-list" role="menubar">
+                  <!-- Item 1: Home / Accueil -->
+                  <li role="none">
+                    <a href="#" role="menuitem" class="pill is-active" id="nav-item-home" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
+                      <span class="hover-circle" aria-hidden="true"></span>
+                      <span class="label-stack">
+                        <span class="pill-label" id="pill-label-home">Accueil</span>
+                        <span class="pill-label-hover" id="pill-label-home-h" aria-hidden="true">Accueil</span>
+                      </span>
+                    </a>
+                  </li>
+                  <!-- Item 2: Expertise / Services -->
+                  <li role="none">
+                    <a href="#expertise-section" role="menuitem" class="pill" id="nav-item-expertise">
+                      <span class="hover-circle" aria-hidden="true"></span>
+                      <span class="label-stack">
+                        <span class="pill-label" id="pill-label-about">Expertise</span>
+                        <span class="pill-label-hover" id="pill-label-about-h" aria-hidden="true">Expertise</span>
+                      </span>
+                    </a>
+                  </li>
+                  <!-- Item 3: Notre Clinique -->
+                  <li role="none">
+                    <a href="#expert-section" role="menuitem" class="pill" id="nav-item-expert">
+                      <span class="hover-circle" aria-hidden="true"></span>
+                      <span class="label-stack">
+                        <span class="pill-label" id="pill-label-doctor">Clinique</span>
+                        <span class="pill-label-hover" id="pill-label-doctor-h" aria-hidden="true">Clinique</span>
+                      </span>
+                    </a>
+                  </li>
+                  <!-- Item 4: Reviews / Avis -->
+                  <li role="none">
+                    <a href="#testimonials-section" role="menuitem" class="pill" id="nav-item-reviews">
+                      <span class="hover-circle" aria-hidden="true"></span>
+                      <span class="label-stack">
+                        <span class="pill-label" id="pill-label-reviews">Avis</span>
+                        <span class="pill-label-hover" id="pill-label-reviews-h" aria-hidden="true">Avis</span>
+                      </span>
+                    </a>
+                  </li>
+                  <!-- Item 5: FAQ -->
+                  <li role="none">
+                    <a href="#faq-section" role="menuitem" class="pill" id="nav-item-faq">
+                      <span class="hover-circle" aria-hidden="true"></span>
+                      <span class="label-stack">
+                        <span class="pill-label" id="pill-label-faq">FAQ</span>
+                        <span class="pill-label-hover" id="pill-label-faq-h" aria-hidden="true">FAQ</span>
+                      </span>
+                    </a>
+                  </li>
+                  <!-- Item 6: Clinics / Contact -->
+                  <li role="none">
+                    <a href="#contact-section" role="menuitem" class="pill" id="nav-item-contacts">
+                      <span class="hover-circle" aria-hidden="true"></span>
+                      <span class="label-stack">
+                        <span class="pill-label" id="pill-label-contacts">Cliniques</span>
+                        <span class="pill-label-hover" id="pill-label-contacts-h" aria-hidden="true">Cliniques</span>
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- 3. Right: Language Switcher + Consultation Action Button + Mobile Hamburger -->
+              <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Minimalist Language Toggle (Desktop: FR Default) -->
+                <div class="hidden md:flex items-center p-1 rounded-full bg-black/90 border border-white/20 shadow-lg text-xs font-bold select-none" id="lang-toggle-desktop">
+                  <button onclick="setLanguage('EN')" id="btn-lang-en-desktop" class="px-2.5 py-1 rounded-full transition-all duration-300 text-neutral-400 hover:text-white font-bold cursor-pointer">
+                    EN
+                  </button>
+                  <button onclick="setLanguage('FR')" id="btn-lang-fr-desktop" class="px-2.5 py-1 rounded-full transition-all duration-300 bg-white text-black font-extrabold shadow-sm cursor-pointer">
+                    FR
+                  </button>
+                </div>
+
+                <!-- Contacts Action Button (Pill Styled) -->
+                <button onclick="openModal()" class="group flex items-center gap-2 pl-4 sm:pl-5 pr-2 py-1.5 sm:py-2 rounded-full silver-button font-bold text-xs sm:text-sm tracking-wide transition-all duration-300 cursor-pointer shadow-lg">
+                  <span id="btn-contacts-text" class="text-slate-900 font-extrabold">Contacts</span>
+                  <span class="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-slate-900 text-silver-100 group-hover:rotate-45 transition-transform duration-300">
+                    <i data-lucide="arrow-up-right" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i>
+                  </span>
+                </button>
+
+                <!-- Mobile Hamburger Button (PillNav Style) -->
+                <button 
+                  class="mobile-menu-button mobile-only" 
+                  id="pill-hamburger-btn"
+                  onclick="toggleMobileMenu()" 
+                  aria-label="Toggle Menu"
+                >
+                  <span class="hamburger-line" id="ham-line-1"></span>
+                  <span class="hamburger-line" id="ham-line-2"></span>
+                </button>
+              </div>
+
+            </nav>
+
+            <!-- Mobile Menu Popover (PillNav Style) -->
+            <div class="mobile-menu-popover mobile-only" id="mobile-menu-drawer">
+              <!-- Language Selector inside Mobile Menu -->
+              <div class="flex items-center justify-between p-3 mb-2 border-b border-white/10">
+                <span class="text-xs uppercase font-bold tracking-wider text-slate-400">Language / Langue</span>
+                <div class="flex items-center p-1 rounded-full bg-black/60 border border-white/15 text-xs font-bold select-none" id="lang-toggle-mobile">
+                  <button onclick="setLanguage('EN')" id="btn-lang-en-mobile" class="px-3 py-1 rounded-full transition-all duration-300 text-neutral-400 hover:text-white font-bold cursor-pointer">
+                    EN
+                  </button>
+                  <button onclick="setLanguage('FR')" id="btn-lang-fr-mobile" class="px-3 py-1 rounded-full transition-all duration-300 bg-white text-black font-extrabold shadow-sm cursor-pointer">
+                    FR
+                  </button>
+                </div>
+              </div>
+
+              <!-- Mobile Nav List -->
+              <ul class="mobile-menu-list">
+                <li>
+                  <a href="#" onclick="toggleMobileMenu(); window.scrollTo({top:0, behavior:'smooth'}); return false;" class="mobile-menu-link" id="mob-nav-home">Accueil</a>
+                </li>
+                <li>
+                  <a href="#expertise-section" onclick="toggleMobileMenu()" class="mobile-menu-link" id="mob-nav-about">Expertise</a>
+                </li>
+                <li>
+                  <a href="#expert-section" onclick="toggleMobileMenu()" class="mobile-menu-link" id="mob-nav-doctor">Notre Clinique</a>
+                </li>
+                <li>
+                  <a href="#testimonials-section" onclick="toggleMobileMenu()" class="mobile-menu-link" id="mob-nav-reviews">Avis</a>
+                </li>
+                <li>
+                  <a href="#faq-section" onclick="toggleMobileMenu()" class="mobile-menu-link" id="mob-nav-faq">FAQ</a>
+                </li>
+                <li>
+                  <a href="#contact-section" onclick="toggleMobileMenu()" class="mobile-menu-link" id="mob-nav-contacts">Cliniques & Contact</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </header>
+
+        <!-- HERO CONTENT AREA (HIGH-CONVERTING LAYOUT OPTIMIZED FOR VIDEO BACKGROUND) -->
+        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center pb-16 sm:pb-24 lg:pb-16 pt-2 sm:pt-4">
+          
+          <!-- Typography & Conversion Column (Subtle Glass Container & Soft Text Shadows) -->
+          <div class="lg:col-span-8 flex flex-col justify-start z-20 bg-black/15 backdrop-blur-[4px] border border-white/10 rounded-3xl p-6 md:p-10 shadow-2xl">
+            
+            <!-- 1. Top Minimalist Badge -->
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/15 backdrop-blur-sm shadow-sm w-fit mb-4 sm:mb-6 select-none">
+              <span class="text-xs">🇨🇭</span>
+              <span id="hero-tagline" class="text-[11px] sm:text-xs font-bold uppercase tracking-[0.22em] text-silver-300 [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+                EXCELLENCE DENTAIRE SUISSE
+              </span>
+            </div>
+
+            <!-- 2. Headline (H1): font-bold text-silver-gradient tracking-tight leading-[1.08] (Identical to Section 4) -->
+            <h1 id="hero-headline" class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-silver-gradient tracking-tight leading-[1.08] flex flex-col items-start">
+              <span>L'Art de la Précision.</span>
+              <span class="mt-1 sm:mt-2">Le Sourire Que Vous Méritez.</span>
+            </h1>
+
+            <!-- 3. Subheadline with soft text shadow -->
+            <p id="hero-subheadline" class="mt-4 sm:mt-6 text-sm sm:text-base text-silver-subtle max-w-lg leading-relaxed font-normal [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+              Dentisterie esthétique et implantologie d'excellence au cœur de Genève. Des résultats parfaits dans un environnement serein et sans douleur.
+            </p>
+
+            <!-- 4. Social Proof: Google Maps Trust Badge (Glassmorphism) -->
+            <div class="mt-6 sm:mt-7 p-3 sm:p-3.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 inline-flex items-center gap-3 sm:gap-4 shadow-lg w-fit max-w-md select-none max-md:bg-white/5 max-md:backdrop-blur-sm">
+              <!-- Google "G" Icon -->
+              <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-sm">
+                <svg width="20" height="20" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
+                </svg>
+              </div>
+
+              <!-- Star Rating & Review Text -->
+              <div class="flex flex-col min-w-0">
+                <div class="flex items-center gap-1.5">
+                  <div class="flex items-center gap-0.5 text-yellow-400 text-xs">
+                    <svg class="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <svg class="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <svg class="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <svg class="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <svg class="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  </div>
+                  <span id="badge-top-rated" class="text-xs font-bold text-white tracking-tight [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Mieux Noté sur Google Maps</span>
+                </div>
+                <span id="badge-reviews-sub" class="text-[10px] sm:text-[11px] text-silver-400 font-medium mt-0.5 [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Basé sur des avis vérifiés de patients</span>
+              </div>
+            </div>
+
+            <!-- 5. Action CTAs (Primary Solid Black + Secondary Glassmorphism) -->
+            <div class="mt-7 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
+              <!-- Primary CTA: Solid Black, White Text, No Borders -->
+              <button onclick="openModal()" class="inline-flex items-center justify-center gap-2 px-7 py-3.5 sm:py-4 rounded-full bg-black text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider hover:bg-neutral-900 active:scale-[0.98] transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.8)] cursor-pointer group">
+                <span id="cta-primary-text">Réserver une Consultation</span>
+                <i data-lucide="arrow-up-right" class="w-4 h-4 text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+              </button>
+
+              <!-- Secondary CTA: Glassmorphism bg-white/10, thin border -->
+              <a href="#expertise-section" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 sm:py-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-white/20 active:scale-[0.98] transition-all duration-300 shadow-sm cursor-pointer">
+                <span id="cta-secondary-text">Découvrir Nos Résultats</span>
+              </a>
+            </div>
+
+          </div>
+
+          <!-- Right Column: 15+ Years Excellence Card (Glassmorphism) -->
+          <div class="lg:col-span-4 flex justify-center lg:justify-end z-10 w-full max-md:hidden">
+            <div class="w-full max-w-sm silver-glass-card rounded-2xl sm:rounded-3xl p-6 sm:p-7 flex flex-col justify-between backdrop-blur-md">
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-silver-400">Quality Care</span>
+                <span class="text-[11px] sm:text-xs font-extrabold px-2.5 py-0.5 sm:py-1 rounded-full bg-silver-200 text-slate-900 shadow-sm">Geneva</span>
+              </div>
+              <div class="text-3xl sm:text-4xl font-extrabold text-silver-gradient tracking-tight leading-none mb-2">
+                15+ Years
+              </div>
+              <p class="text-xs sm:text-sm font-medium text-silver-300 leading-relaxed">
+                Of excellence in dental surgery, implantology, and aesthetic dentistry in Geneva.
+              </p>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ==========================================
+         SECTION 2: OUR EXPERTISE (<ScrollStack> WITH itemScale={0.05})
+         ========================================== -->
+    <div class="w-full max-w-[1280px]">
+      <section id="expertise-section" class="w-full bg-transparent p-2 sm:p-4 md:p-6 select-none relative overflow-visible">
+        
+        <!-- Header -->
+        <div class="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-silver-300/15 mb-10 sm:mb-14">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-800/40 border border-silver-300/20 text-[11px] font-bold tracking-[0.2em] text-silver-300 uppercase mb-4 backdrop-blur-sm">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span id="exp-badge-tag">OUR EXPERTISE</span>
+            </div>
+
+            <h2 id="exp-main-headline" class="text-3xl sm:text-5xl md:text-6xl font-black text-silver-gradient tracking-tight leading-[1.08] max-w-2xl">
+              Dentistry, <br class="hidden sm:inline" />
+              <span class="text-silver-400 font-light italic">precisely considered.</span>
+            </h2>
+          </div>
+
+          <!-- Stats -->
+          <div class="flex flex-wrap items-center gap-6 sm:gap-8 pt-2 md:pt-0">
+            <div class="border-l border-silver-300/20 pl-4">
+              <div class="text-2xl sm:text-3xl font-black text-silver-bright tracking-tight">15+</div>
+              <div id="stat-exp-lbl" class="text-[11px] text-silver-400 uppercase tracking-wider font-semibold mt-0.5">Anos de Experiência</div>
+            </div>
+            <div class="border-l border-silver-300/20 pl-4">
+              <div class="text-2xl sm:text-3xl font-black text-silver-bright tracking-tight">2500+</div>
+              <div id="stat-pat-lbl" class="text-[11px] text-silver-400 uppercase tracking-wider font-semibold mt-0.5">Pacientes Atendidos</div>
+            </div>
+            <div class="border-l border-silver-300/20 pl-4">
+              <div class="text-2xl sm:text-3xl font-black text-emerald-400 tracking-tight">98%</div>
+              <div id="stat-suc-lbl" class="text-[11px] text-silver-400 uppercase tracking-wider font-semibold mt-0.5">Índice de Sucesso</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <ScrollStack> Component (max-w-2xl, itemScale={0.05}, bg-black/20 border-white/10 backdrop-blur-sm) -->
+        <div id="scroll-stack-container" class="relative w-full max-w-2xl mx-auto flex flex-col space-y-12 sm:space-y-16 pb-12">
+          
+          <!-- <ScrollStackItem 1: Aesthetic Dentistry> -->
+          <div class="scroll-stack-item sticky top-24 sm:top-28 w-full max-w-2xl mx-auto rounded-3xl bg-black/20 backdrop-blur-sm border border-white/10 p-5 sm:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.6)] transform-gpu transition-all duration-300 overflow-hidden" data-index="0">
+            <div class="relative w-full h-48 sm:h-64 rounded-2xl overflow-hidden mb-5 border border-white/15">
+              <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=1000&q=85" alt="Aesthetic Dentistry" class="w-full h-full object-cover filter brightness-95" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none"></div>
+              
+              <div class="absolute top-3 left-3 z-10">
+                <span class="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-xs font-bold text-silver-100 flex items-center gap-1.5 shadow-md">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-400"></i>
+                  <span id="exp-card-1-tag" class="[text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Handcrafted in Geneva</span>
+                </span>
+              </div>
+
+              <div class="absolute bottom-3 left-4 right-4 z-10 flex items-end justify-between">
+                <div>
+                  <span class="text-[11px] font-mono font-bold text-emerald-400 uppercase tracking-widest block [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">01 / 04</span>
+                  <h3 id="exp-card-1-title" class="text-xl sm:text-2xl font-black text-white leading-tight [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Aesthetic Dentistry</h3>
+                </div>
+                <div class="bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/15 text-right">
+                  <span class="text-lg font-black text-white block leading-none [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">100%</span>
+                  <span id="exp-card-1-metric-lbl" class="text-[8px] uppercase tracking-wider text-silver-400 font-semibold [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Personalization</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <h4 id="exp-card-1-head" class="text-base sm:text-lg font-extrabold text-silver-bright [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Natural results, designed for you.</h4>
+              <p id="exp-card-1-desc" class="text-xs sm:text-sm text-silver-subtle leading-relaxed font-normal [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+                Our porcelain veneers and ceramic restorations are handcrafted in a partner lab in Geneva, preserving the natural biological harmony of every smile.
+              </p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
+                <div class="flex items-center gap-2 text-xs font-semibold text-silver-200">
+                  <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span id="exp-card-1-f1" class="[text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Pure Handcrafted Ceramic</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs font-semibold text-silver-200">
+                  <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span id="exp-card-1-f2" class="[text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Ultra-thin Veneers</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs font-semibold text-silver-200">
+                  <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span id="exp-card-1-f3" class="[text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Digital Smile Design (DSD)</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs font-semibold text-silver-200">
+                  <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span id="exp-card-1-f4" class="[text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Facial Aesthetics Harmony</span>
+                </div>
+              </div>
+
+              <div class="pt-4 flex items-center justify-between gap-3 border-t border-white/10 mt-3">
+                <a href="https://api.whatsapp.com/send?phone=+41788509393" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full silver-button font-bold text-xs uppercase tracking-wider cursor-pointer shadow-md">
+                  <span id="exp-card-1-btn-consult" class="text-slate-900 font-extrabold">Consult</span>
+                  <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-slate-900"></i>
+                </a>
+                <button onclick="openModal()" id="exp-card-1-btn-eval" class="text-xs font-bold text-silver-300 hover:text-white uppercase tracking-wider underline cursor-pointer [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+                  Book Assessment →
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- <ScrollStackItem 2: Implantology> -->
+          <div class="scroll-stack-item sticky top-24 sm:top-28 w-full max-w-2xl mx-auto rounded-3xl bg-black/20 backdrop-blur-sm border border-white/10 p-5 sm:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.6)] transform-gpu transition-all duration-300 overflow-hidden" data-index="1">
+            <div class="relative w-full h-48 sm:h-64 rounded-2xl overflow-hidden mb-5 border border-white/15">
+              <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1000&q=85" alt="Implantology" class="w-full h-full object-cover filter brightness-95" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none"></div>
+              
+              <div class="absolute top-3 left-3 z-10">
+                <span class="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-xs font-bold text-silver-100 flex items-center gap-1.5 shadow-md">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-400"></i>
+                  <span id="exp-card-2-tag" class="[text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Straumann® Swiss Precision</span>
+                </span>
+              </div>
+
+              <div class="absolute bottom-3 left-4 right-4 z-10 flex items-end justify-between">
+                <div>
+                  <span class="text-[11px] font-mono font-bold text-emerald-400 uppercase tracking-widest block [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">02 / 04</span>
+                  <h3 id="exp-card-2-title" class="text-xl sm:text-2xl font-black text-white leading-tight [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Implantology</h3>
+                </div>
+                <div class="bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/15 text-right">
+                  <span class="text-lg font-black text-white block leading-none [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">99.4%</span>
+                  <span id="exp-card-2-metric-lbl" class="text-[8px] uppercase tracking-wider text-silver-400 font-semibold [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Osseointegration</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <h4 id="exp-card-2-head" class="text-base sm:text-lg font-extrabold text-silver-bright [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Precision from planning to placement.</h4>
+              <p id="exp-card-2-desc" class="text-xs sm:text-sm text-silver-subtle leading-relaxed font-normal [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+                3D computer-guided surgical planning and Swiss Straumann® implants, ensuring maximum predictability, osseointegration, and absolute comfort.
+              </p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
+                <div class="flex items-center gap-2 text-xs font-semibold text-silver-200">
+                  <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span id="exp-card-2-f1" class="[text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Straumann Swiss Implants</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs font-semibold text-silver-200">
+                  <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span id="exp-card-2-f2" class="[text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Computer-Guided Surgery</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs font-semibold text-silver-200">
+                  <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span id="exp-card-2-f3" class="[text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Immediate Load Protocol</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs font-semibold text-silver-200">
+                  <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span id="exp-card-2-f4" class="[text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Advanced Bone Regeneration</span>
+                </div>
+              </div>
+
+              <div class="pt-4 flex items-center justify-between gap-3 border-t border-white/10 mt-3">
+                <a href="https://api.whatsapp.com/send?phone=+41788509393" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full silver-button font-bold text-xs uppercase tracking-wider cursor-pointer shadow-md">
+                  <span id="exp-card-2-btn-consult" class="text-slate-900 font-extrabold">Consult</span>
+                  <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-slate-900"></i>
+                </a>
+                <button onclick="openModal()" id="exp-card-2-btn-eval" class="text-xs font-bold text-silver-300 hover:text-white uppercase tracking-wider underline cursor-pointer [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+                  Book Assessment →
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- <ScrollStackItem 3: Orthodontics> -->
+          <div class="scroll-stack-item sticky top-24 sm:top-28 w-full max-w-2xl mx-auto rounded-3xl bg-black/20 backdrop-blur-sm border border-white/10 p-5 sm:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.6)] transform-gpu transition-all duration-300 overflow-hidden" data-index="2">
+            <div class="relative w-full h-48 sm:h-64 rounded-2xl overflow-hidden mb-5 border border-white/15">
+              <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=1000&q=85" alt="Orthodontics" class="w-full h-full object-cover filter brightness-95" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none"></div>
+              
+              <div class="absolute top-3 left-3 z-10">
+                <span class="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-xs font-bold text-silver-100 flex items-center gap-1.5 shadow-md">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-400"></i>
+                  <span id="exp-card-3-tag" class="[text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Digital Aligner Systems</span>
+                </span>
+              </div>
+
+              <div class="absolute bottom-3 left-4 right-4 z-10 flex items-end justify-between">
+                <div>
+                  <span class="text-[11px] font-mono font-bold text-emerald-400 uppercase tracking-widest block [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">03 / 04</span>
+                  <h3 id="exp-card-3-title" class="text-xl sm:text-2xl font-black text-white leading-tight [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Orthodontics</h3>
+                </div>
+                <div class="bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/15 text-right">
+                  <span class="text-lg font-black text-white block leading-none [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">2.5k+</span>
+                  <span id="exp-card-3-metric-lbl" class="text-[8px] uppercase tracking-wider text-silver-400 font-semibold [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Aligned Smiles</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <h4 id="exp-card-3-head" class="text-base sm:text-lg font-extrabold text-silver-bright [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Function, balance and confidence.</h4>
+              <p id="exp-card-3-desc" class="text-xs sm:text-sm text-silver-subtle leading-relaxed font-normal [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+                Orthodontic care focused on both aesthetics and function, promoting occlusal stability and alignment with invisible aligners and 3D intraoral scanning.
+              </p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
+                <div class="flex items-center gap-2 text-xs font-semibold text-silver-200">
+                  <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span id="exp-card-3-f1" class="[text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Clear Aligners</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs font-semibold text-silver-200">
+                  <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span id="exp-card-3-f2" class="[text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">3D Occlusal Planning</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs font-semibold text-silver-200">
+                  <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span id="exp-card-3-f3" class="[text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">HD Intraoral Scanning</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs font-semibold text-silver-200">
+                  <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span id="exp-card-3-f4" class="[text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Accelerated Treatment</span>
+                </div>
+              </div>
+
+              <div class="pt-4 flex items-center justify-between gap-3 border-t border-white/10 mt-3">
+                <a href="https://api.whatsapp.com/send?phone=+41788509393" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full silver-button font-bold text-xs uppercase tracking-wider cursor-pointer shadow-md">
+                  <span id="exp-card-3-btn-consult" class="text-slate-900 font-extrabold">Consult</span>
+                  <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-slate-900"></i>
+                </a>
+                <button onclick="openModal()" id="exp-card-3-btn-eval" class="text-xs font-bold text-silver-300 hover:text-white uppercase tracking-wider underline cursor-pointer [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+                  Book Assessment →
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- <ScrollStackItem 4: Preventive Dentistry> -->
+          <div class="scroll-stack-item sticky top-24 sm:top-28 w-full max-w-2xl mx-auto rounded-3xl bg-black/20 backdrop-blur-sm border border-white/10 p-5 sm:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.6)] transform-gpu transition-all duration-300 overflow-hidden" data-index="3">
+            <div class="relative w-full h-48 sm:h-64 rounded-2xl overflow-hidden mb-5 border border-white/15">
+              <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1000&q=85" alt="Preventive Dentistry" class="w-full h-full object-cover filter brightness-95" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none"></div>
+              
+              <div class="absolute top-3 left-3 z-10">
+                <span class="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-xs font-bold text-silver-100 flex items-center gap-1.5 shadow-md">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-400"></i>
+                  <span id="exp-card-4-tag" class="[text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Optical Microscopy</span>
+                </span>
+              </div>
+
+              <div class="absolute bottom-3 left-4 right-4 z-10 flex items-end justify-between">
+                <div>
+                  <span class="text-[11px] font-mono font-bold text-emerald-400 uppercase tracking-widest block [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">04 / 04</span>
+                  <h3 id="exp-card-4-title" class="text-xl sm:text-2xl font-black text-white leading-tight [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Preventive Dentistry</h3>
+                </div>
+                <div class="bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/15 text-right">
+                  <span class="text-lg font-black text-white block leading-none [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">0.1mm</span>
+                  <span id="exp-card-4-metric-lbl" class="text-[8px] uppercase tracking-wider text-silver-400 font-semibold [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Optical Precision</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <h4 id="exp-card-4-head" class="text-base sm:text-lg font-extrabold text-silver-bright [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Preserve what is naturally yours.</h4>
+              <p id="exp-card-4-desc" class="text-xs sm:text-sm text-silver-subtle leading-relaxed font-normal [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+                Biomimetic and minimally invasive dentistry with optical surgical microscopy, preventing unnecessary interventions and conserving tooth structure.
+              </p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
+                <div class="flex items-center gap-2 text-xs font-semibold text-silver-200">
+                  <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span id="exp-card-4-f1" class="[text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">High-Precision Microscope</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs font-semibold text-silver-200">
+                  <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span id="exp-card-4-f2" class="[text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Laser Diagnostics</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs font-semibold text-silver-200">
+                  <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span id="exp-card-4-f3" class="[text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Biological Preservation</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs font-semibold text-silver-200">
+                  <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span id="exp-card-4-f4" class="[text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">AirFlow® Guided Cleaning</span>
+                </div>
+              </div>
+
+              <div class="pt-4 flex items-center justify-between gap-3 border-t border-white/10 mt-3">
+                <a href="https://api.whatsapp.com/send?phone=+41788509393" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full silver-button font-bold text-xs uppercase tracking-wider cursor-pointer shadow-md">
+                  <span id="exp-card-4-btn-consult" class="text-slate-900 font-extrabold">Consult</span>
+                  <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-slate-900"></i>
+                </a>
+                <button onclick="openModal()" id="exp-card-4-btn-eval" class="text-xs font-bold text-silver-300 hover:text-white uppercase tracking-wider underline cursor-pointer [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+                  Book Assessment →
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+    </div>
+
+
+    <!-- ==========================================
+         SECTION 3: CONTACT & CLINIC LOCATIONS (STRICTLY TRANSPARENT)
+         ========================================== -->
+    <div class="w-full max-w-[1280px]">
+      <section id="contact-section" class="w-full bg-transparent flex flex-col pt-8 md:pt-12 px-2 md:px-6 pb-12 gap-8 md:gap-10 transition-all">
+        
+        <!-- Header -->
+        <div class="text-center space-y-2 max-w-2xl mx-auto">
+          <h2 id="contact-main-title" class="text-3xl sm:text-4xl md:text-5xl font-black text-silver-gradient tracking-tight leading-[1.05]">
+            Get in touch, let us know <br class="hidden md:block" /> how we can help
+          </h2>
+        </div>
+
+        <!-- Split Map + Clinic Selector (Transparent Glass) -->
+        <div class="silver-glass-card rounded-3xl p-4 sm:p-6 md:p-8 flex flex-col md:flex-row gap-6 md:gap-8 max-w-5xl mx-auto w-full backdrop-blur-md">
+          
+          <!-- Map Column -->
+          <div class="flex-1 rounded-2xl overflow-hidden min-h-[380px] md:min-h-[440px] relative border border-silver-300/20 bg-slate-950/40">
+            <iframe id="clinic-map-frame" src="https://maps.google.com/maps?q=Rue+Saint-L%C3%A9ger+8,+1204+Gen%C3%A8ve,+Switzerland&t=&z=17&ie=UTF8&iwloc=B&output=embed" class="w-full h-full min-h-[380px] md:min-h-[440px] border-0 filter contrast-105" allowfullscreen="" loading="lazy"></iframe>
+
+            <div class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-silver-300/30 flex items-center gap-2 pointer-events-none">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span id="active-map-badge" class="text-xs font-bold text-silver-100">Rue Saint Léger, 8</span>
+            </div>
+          </div>
+
+          <!-- Selector Column -->
+          <div class="flex-1 flex flex-col justify-center gap-4">
+            <div class="mb-2">
+              <h3 id="choose-clinic-title" class="text-2xl sm:text-3xl font-bold text-silver-gradient tracking-tight leading-tight">Choose your clinic</h3>
+              <p id="choose-clinic-desc" class="text-xs sm:text-sm font-medium text-silver-300 mt-1">
+                Select a location to view on the map or tap the WhatsApp button to chat directly with our team.
+              </p>
+            </div>
+
+            <!-- Clinic 1 -->
+            <div id="clinic-btn-1" onclick="switchClinic('saintleger')" class="clinic-btn active w-full rounded-2xl p-5 flex items-center justify-between border border-white bg-gradient-to-r from-white/90 to-silver-200/90 text-slate-900 shadow-lg scale-[1.01] transition-all duration-300 cursor-pointer group">
+              <div class="flex flex-col gap-1 min-w-0 pr-3">
+                <span class="text-[11px] font-bold uppercase tracking-widest text-slate-700">GENEVA DENTAL CLINIC</span>
+                <span class="text-sm md:text-base font-extrabold text-slate-950 leading-snug">Rue Saint Léger, 8, 1204 Genève</span>
+              </div>
+              <a href="https://wa.me/41788509393" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="w-11 h-11 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-md transition-all duration-300 hover:scale-110 active:scale-95" title="Chat on WhatsApp">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.072-1.028-.052-.777-.246-1.748-.823-2.628-1.704-.88-.88-1.458-1.851-1.704-2.628-.124-.394-.097-.716-.052-1.028.05-.333.419-1.026.824-1.17.135-.048.281-.039.398.026.155.086.582 1.34.619 1.488.037.148.016.275-.052.378-.073.111-.144.185-.237.284-.092.1-.194.223-.083.413.24.412.784 1.157 1.398 1.703.614.546 1.319.789 1.547.904.228.115.36.096.495-.059.135-.155.578-.673.733-.905.155-.232.31-.194.52-.116.21.078 1.33.628 1.558.742.228.114.38.172.436.269.056.097.056.562-.088.967z"/>
+                </svg>
+              </a>
+            </div>
+
+            <!-- Clinic 2 -->
+            <div id="clinic-btn-2" onclick="switchClinic('prevost')" class="clinic-btn w-full rounded-2xl p-5 flex items-center justify-between border border-silver-300/20 silver-glass-card text-silver-300 hover:border-silver-200/50 hover:text-white transition-all duration-300 cursor-pointer group">
+              <div class="flex flex-col gap-1 min-w-0 pr-3">
+                <span class="text-[11px] font-bold uppercase tracking-widest text-silver-400 group-hover:text-silver-200 transition-colors">CLINIC 2</span>
+                <span class="text-sm md:text-base font-bold text-silver-200 group-hover:text-white leading-snug">Rue Prévost-Martin 4B, 1205 Genève</span>
+              </div>
+              <a href="https://wa.me/41788509393" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="w-11 h-11 rounded-full bg-slate-800 text-silver-300 group-hover:bg-emerald-500 group-hover:text-white flex items-center justify-center shrink-0 shadow-sm transition-all duration-300 hover:scale-110 active:scale-95" title="Chat on WhatsApp">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.072-1.028-.052-.777-.246-1.748-.823-2.628-1.704-.88-.88-1.458-1.851-1.704-2.628-.124-.394-.097-.716-.052-1.028.05-.333.419-1.026.824-1.17.135-.048.281-.039.398.026.155.086.582 1.34.619 1.488.037.148.016.275-.052.378-.073.111-.144.185-.237.284-.092.1-.194.223-.083.413.24.412.784 1.157 1.398 1.703.614.546 1.319.789 1.547.904.228.115.36.096.495-.059.135-.155.578-.673.733-.905.155-.232.31-.194.52-.116.21.078 1.33.628 1.558.742.228.114.38.172.436.269.056.097.056.562-.088.967z"/>
+                </svg>
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Contact Bottom Cards (Silver Glass) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto w-full">
+          <!-- Email -->
+          <a href="mailto:info@geneva-dental.ch" class="silver-glass-card rounded-2xl p-5 md:p-6 flex items-center gap-4 group cursor-pointer">
+            <div class="w-12 h-12 bg-silver-200/10 border border-silver-300/30 text-silver-100 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:border-white transition-transform"><i data-lucide="mail" class="w-5 h-5"></i></div>
+            <div class="min-w-0">
+              <p id="email-card-lbl" class="text-xs text-silver-400 font-semibold mb-0.5">Email address</p>
+              <p class="text-sm md:text-base text-silver-bright font-bold truncate">info@geneva-dental.ch</p>
+            </div>
+          </a>
+
+          <!-- Phone -->
+          <a href="https://api.whatsapp.com/send?phone=+41788509393" target="_blank" rel="noopener noreferrer" class="silver-glass-card rounded-2xl p-5 md:p-6 flex items-center gap-4 group cursor-pointer">
+            <div class="w-12 h-12 bg-silver-200/10 border border-silver-300/30 text-silver-100 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:border-white transition-transform"><i data-lucide="phone" class="w-5 h-5"></i></div>
+            <div class="min-w-0">
+              <p id="phone-card-lbl" class="text-xs text-silver-400 font-semibold mb-0.5">Phone Number</p>
+              <p class="text-sm md:text-base text-silver-bright font-bold">+41 78 850 93 93</p>
+            </div>
+          </a>
+
+          <!-- Location -->
+          <div class="silver-glass-card rounded-2xl p-5 md:p-6 flex items-center gap-4">
+            <div class="w-12 h-12 bg-silver-200/10 border border-silver-300/30 text-silver-100 rounded-xl flex items-center justify-center shrink-0"><i data-lucide="map-pin" class="w-5 h-5"></i></div>
+            <div class="min-w-0">
+              <p id="location-card-lbl" class="text-xs text-silver-400 font-semibold mb-0.5">Our Location</p>
+              <p id="location-card-val" class="text-sm md:text-base text-silver-bright font-bold">Genève, Switzerland</p>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </div>
+
+
+    <!-- ==========================================
+         SECTION 4: TESTIMONIALS (STRICTLY TRANSPARENT)
+         ========================================== -->
+    <div class="w-full max-w-[1280px]">
+      <section id="testimonials-section" class="w-full bg-transparent text-silver-200 py-16 sm:py-24 px-4 sm:px-6 md:px-10">
+        <div class="max-w-6xl mx-auto flex flex-col items-center">
+          
+          <!-- Tag -->
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/70 border border-silver-300/25 text-silver-300 text-xs font-semibold uppercase tracking-widest shadow-inner mb-6 backdrop-blur-sm">
+            <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
+            <span id="testimonials-tag-text">NOS PATIENTS TÉMOIGNENT</span>
+          </div>
+
+          <!-- Title -->
+          <h2 id="testimonials-main-title" class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-silver-gradient text-center tracking-tight leading-[1.08] max-w-3xl">
+            A la Geneva Dental Clinic, nous aimons tous les sourires
+          </h2>
+
+          <!-- Reviews Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-14 w-full">
+            
+            <!-- Card 1 -->
+            <div class="silver-glass-card rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-1 text-yellow-400">
+                  ★★★★★
+                </div>
+                <p class="text-silver-300 text-sm leading-relaxed mt-4 mb-6 font-normal">
+                  "Dr. Thinard and his assistant, Raquel, were great. They were very caring from the first contact, always explaining everything they were doing as well as making sure you are comfortable and mainly, not feeling any discomfort or pain..."
+                </p>
+              </div>
+              <div class="flex items-center gap-3 pt-4 border-t border-silver-300/15">
+                <div class="w-10 h-10 rounded-full bg-slate-800 border border-silver-300/30 text-silver-100 flex items-center justify-center font-bold text-xs shrink-0">MF</div>
+                <div class="flex flex-col min-w-0">
+                  <span class="font-bold text-sm text-silver-bright truncate">Marco Forini</span>
+                  <span class="text-xs text-silver-400 font-medium">2022-01-25</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="silver-glass-card rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-1 text-yellow-400">
+                  ★★★★★
+                </div>
+                <p class="text-silver-300 text-sm leading-relaxed mt-4 mb-6 font-normal">
+                  "Je suis absolument ravie. Étant atteinte de phobie dentaire depuis maintenant une dizaine d'années, je suis absolument fan du docteur Thinard! Il a su me mettre à l'aise, comprendre ma peur et être patient avec moi..."
+                </p>
+              </div>
+              <div class="flex items-center gap-3 pt-4 border-t border-silver-300/15">
+                <div class="w-10 h-10 rounded-full bg-slate-800 border border-silver-300/30 text-silver-100 flex items-center justify-center font-bold text-xs shrink-0">SC</div>
+                <div class="flex flex-col min-w-0">
+                  <span class="font-bold text-sm text-silver-bright truncate">Sarah Cynamon</span>
+                  <span class="text-xs text-silver-400 font-medium">2022-02-02</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="silver-glass-card rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-1 text-yellow-400">
+                  ★★★★★
+                </div>
+                <p class="text-silver-300 text-sm leading-relaxed mt-4 mb-6 font-normal">
+                  "Extremely friendly staff and good treatment and advice. Highly recommend Geneva Dental Clinic for anyone seeking top notch aesthetic and general dental work."
+                </p>
+              </div>
+              <div class="flex items-center gap-3 pt-4 border-t border-silver-300/15">
+                <div class="w-10 h-10 rounded-full bg-slate-800 border border-silver-300/30 text-silver-100 flex items-center justify-center font-bold text-xs shrink-0">LF</div>
+                <div class="flex flex-col min-w-0">
+                  <span class="font-bold text-sm text-silver-bright truncate">Ludovic Ferrecchia</span>
+                  <span class="text-xs text-silver-400 font-medium">2022-02-03</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="silver-glass-card rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-1 text-yellow-400">
+                  ★★★★★
+                </div>
+                <p class="text-silver-300 text-sm leading-relaxed mt-4 mb-6 font-normal">
+                  "Super expérience à la clinique dentaire de Genève. Accueil chaleureux, matériel de pointe et explication très claire à chaque étape du soin. Je recommande sans hésitation!"
+                </p>
+              </div>
+              <div class="flex items-center gap-3 pt-4 border-t border-silver-300/15">
+                <div class="w-10 h-10 rounded-full bg-slate-800 border border-silver-300/30 text-silver-100 flex items-center justify-center font-bold text-xs shrink-0">CL</div>
+                <div class="flex flex-col min-w-0">
+                  <span class="font-bold text-sm text-silver-bright truncate">Camille Laurent</span>
+                  <span class="text-xs text-silver-400 font-medium">2022-02-18</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="silver-glass-card rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-1 text-yellow-400">
+                  ★★★★★
+                </div>
+                <p class="text-silver-300 text-sm leading-relaxed mt-4 mb-6 font-normal">
+                  "Implantologie réalisée avec une précision impressionnante. Aucune douleur ressentie et le résultat esthétique dépasse mes attentes. Merci à toute l'équipe!"
+                </p>
+              </div>
+              <div class="flex items-center gap-3 pt-4 border-t border-silver-300/15">
+                <div class="w-10 h-10 rounded-full bg-slate-800 border border-silver-300/30 text-silver-100 flex items-center justify-center font-bold text-xs shrink-0">AB</div>
+                <div class="flex flex-col min-w-0">
+                  <span class="font-bold text-sm text-silver-bright truncate">Alexandre Blanc</span>
+                  <span class="text-xs text-silver-400 font-medium">2022-03-05</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="silver-glass-card rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-1 text-yellow-400">
+                  ★★★★★
+                </div>
+                <p class="text-silver-300 text-sm leading-relaxed mt-4 mb-6 font-normal">
+                  "Une clinique d'excellence à Genève. L'équipe est attentionnée, le cabinet d'une propreté exemplaire et les soins prodigués avec une grande minutie."
+                </p>
+              </div>
+              <div class="flex items-center gap-3 pt-4 border-t border-silver-300/15">
+                <div class="w-10 h-10 rounded-full bg-slate-800 border border-silver-300/30 text-silver-100 flex items-center justify-center font-bold text-xs shrink-0">ER</div>
+                <div class="flex flex-col min-w-0">
+                  <span class="font-bold text-sm text-silver-bright truncate">Émilie Roche</span>
+                  <span class="text-xs text-silver-400 font-medium">2022-03-12</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ==========================================
+         SECTION 5: INSTITUTIONAL EXCELLENCE (GENEVA DENTAL CLINIC)
+         ========================================== -->
+    <div class="w-full max-w-[1280px]">
+      <section id="expert-section" class="w-full bg-transparent py-10 sm:py-16 px-2 sm:px-4 md:px-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
+          
+          <!-- Left Column: Clinic Tour Video -->
+          <div class="lg:col-span-5 relative rounded-3xl overflow-hidden bg-zinc-900 border border-white/20 shadow-2xl min-h-[380px] sm:min-h-[460px] flex flex-col justify-end group">
+            <video 
+              src="images/Filming_clinic_room_tour_202608251740.mp4" 
+              autoplay 
+              loop 
+              muted 
+              playsinline 
+              class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+            ></video>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none"></div>
+            
+            <!-- Bottom Floating Badge on Video -->
+            <div class="relative z-10 p-6">
+              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-white text-xs font-bold shadow-lg mb-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span id="expert-photo-tag">📍 Genève, Suisse</span>
+              </div>
+              <p id="expert-photo-sub" class="text-xs text-silver-300 font-medium">
+                Excellence & Confort
+              </p>
+            </div>
+          </div>
+
+          <!-- Right Column: Minimalist Off-White Authority Card -->
+          <div class="lg:col-span-7 bg-stone-50 text-slate-950 rounded-3xl p-7 sm:p-10 md:p-12 shadow-2xl border border-stone-200 flex flex-col justify-between">
+            <div>
+              <!-- Tag Badge -->
+              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-950/10 border border-slate-950/15 text-slate-900 text-xs font-bold uppercase tracking-widest mb-4">
+                <span>🇨🇭</span>
+                <span id="expert-badge-tag">NOTRE CLINIQUE</span>
+              </div>
+
+              <!-- Titles -->
+              <h2 id="expert-title" class="text-3xl sm:text-4xl md:text-5xl font-black text-slate-950 tracking-tight leading-[1.05]">
+                L'Excellence Dentaire au Cœur de Genève
+              </h2>
+              <p id="expert-subtitle" class="text-sm sm:text-base font-bold text-slate-600 mt-1 uppercase tracking-wider">
+                Technologie Suisse & Confort Absolu
+              </p>
+
+              <!-- Bio / Main Paragraph -->
+              <p id="expert-bio" class="text-sm sm:text-base text-slate-700 leading-relaxed font-normal mt-5">
+                Découvrez un espace conçu pour votre bien-être. À la Geneva Dental Clinic, nous allions des équipements de pointe à une approche profondément humaine. Spécialisés dans l'esthétique et l'implantologie, nous offrons un environnement apaisant, idéal pour surmonter l'anxiété dentaire avec des protocoles garantissant des soins sans douleur.
+              </p>
+
+              <!-- Benefits List -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6 pt-6 border-t border-slate-200/80">
+                <div class="flex items-center gap-2.5 text-xs sm:text-sm font-bold text-slate-900">
+                  <div class="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-sm">
+                    <i data-lucide="check" class="w-3.5 h-3.5 stroke-[3]"></i>
+                  </div>
+                  <span id="expert-cred-1">Technologie de Pointe (Scanner 3D)</span>
+                </div>
+                <div class="flex items-center gap-2.5 text-xs sm:text-sm font-bold text-slate-900">
+                  <div class="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-sm">
+                    <i data-lucide="check" class="w-3.5 h-3.5 stroke-[3]"></i>
+                  </div>
+                  <span id="expert-cred-2">Cadre Relaxant & Premium</span>
+                </div>
+                <div class="flex items-center gap-2.5 text-xs sm:text-sm font-bold text-slate-900">
+                  <div class="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-sm">
+                    <i data-lucide="check" class="w-3.5 h-3.5 stroke-[3]"></i>
+                  </div>
+                  <span id="expert-cred-3">Approche Douce (Zéro Phobie)</span>
+                </div>
+                <div class="flex items-center gap-2.5 text-xs sm:text-sm font-bold text-slate-900">
+                  <div class="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-sm">
+                    <i data-lucide="check" class="w-3.5 h-3.5 stroke-[3]"></i>
+                  </div>
+                  <span id="expert-cred-4">+15 Ans d'Expertise Suisse</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Area -->
+            <div class="mt-8 pt-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+              <button onclick="openModal()" class="inline-flex items-center justify-center gap-2 px-8 py-3.5 sm:py-4 rounded-full bg-slate-950 text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider hover:bg-slate-800 transition-all shadow-lg cursor-pointer">
+                <span id="expert-btn-consult">RÉSERVER UNE CONSULTATION</span>
+                <i data-lucide="arrow-up-right" class="w-4 h-4 text-white"></i>
+              </button>
+
+              <a href="https://wa.me/41788509393" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 sm:py-4 rounded-full bg-emerald-500/10 text-emerald-700 font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-emerald-500/20 transition-all cursor-pointer border border-emerald-500/30">
+                <span id="expert-btn-whatsapp">VOIR LA CLINIQUE</span>
+                <i data-lucide="arrow-up-right" class="w-4 h-4 text-emerald-600"></i>
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+    </div>
+
+
+    <!-- ==========================================
+         SECTION 6: FAQ (ACCORDION - QUESTIONS FRÉQUENTES)
+         ========================================== -->
+    <div class="w-full max-w-[1280px]">
+      <section id="faq-section" class="w-full bg-transparent py-12 sm:py-20 px-2 sm:px-4 md:px-6">
+        <div class="max-w-4xl mx-auto flex flex-col items-center">
+          
+          <!-- Tag -->
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/70 border border-silver-300/25 text-silver-300 text-xs font-semibold uppercase tracking-widest shadow-inner mb-4 backdrop-blur-sm">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            <span id="faq-tag">QUESTIONS FRÉQUENTES</span>
+          </div>
+
+          <!-- Title -->
+          <h2 id="faq-main-title" class="text-3xl sm:text-4xl md:text-5xl font-bold text-silver-gradient text-center tracking-tight leading-[1.08] mb-3">
+            Questions Fréquentes
+          </h2>
+          <p id="faq-sub-title" class="text-sm sm:text-base text-silver-300 text-center max-w-xl mb-10 [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+            Tout ce que vous devez savoir avant votre consultation à la Geneva Dental Clinic.
+          </p>
+
+          <!-- Accordion List -->
+          <div class="w-full space-y-3 sm:space-y-4">
+            
+            <!-- FAQ 1 -->
+            <div class="faq-item bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden transition-all duration-300 hover:border-white/20">
+              <button onclick="toggleFaq(1)" class="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 cursor-pointer">
+                <span id="faq-q1" class="text-base sm:text-lg font-bold text-silver-100 [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+                  La pose d'implants dentaires est-elle douloureuse ?
+                </span>
+                <span id="faq-icon-1" class="w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center shrink-0 font-extrabold text-base transition-transform duration-300">
+                  +
+                </span>
+              </button>
+              <div id="faq-ans-1" class="hidden px-5 sm:px-6 pb-5 sm:pb-6 text-sm text-silver-300 leading-relaxed border-t border-white/5 pt-4">
+                <p id="faq-a1">
+                  Non. Grâce à l'anesthésie locale de pointe et à la planification 3D guidée par ordinateur, l'intervention est totalement indolore. Pour les patients très anxieux, nous proposons des solutions de sédation douce pour un confort absolu tout au long du soin.
+                </p>
+              </div>
+            </div>
+
+            <!-- FAQ 2 -->
+            <div class="faq-item bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden transition-all duration-300 hover:border-white/20">
+              <button onclick="toggleFaq(2)" class="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 cursor-pointer">
+                <span id="faq-q2" class="text-base sm:text-lg font-bold text-silver-100 [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+                  Combien de temps durent les facettes dentaires en céramique ?
+                </span>
+                <span id="faq-icon-2" class="w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center shrink-0 font-extrabold text-base transition-transform duration-300">
+                  +
+                </span>
+              </button>
+              <div id="faq-ans-2" class="hidden px-5 sm:px-6 pb-5 sm:pb-6 text-sm text-silver-300 leading-relaxed border-t border-white/5 pt-4">
+                <p id="faq-a2">
+                  Nos facettes en céramique pure, confectionnées artisanalement dans notre laboratoire partenaire à Genève, ont une durée de vie moyenne de 15 à 20 ans avec une bonne hygiène bucco-dentaire et des contrôles réguliers.
+                </p>
+              </div>
+            </div>
+
+            <!-- FAQ 3 -->
+            <div class="faq-item bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden transition-all duration-300 hover:border-white/20">
+              <button onclick="toggleFaq(3)" class="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 cursor-pointer">
+                <span id="faq-q3" class="text-base sm:text-lg font-bold text-silver-100 [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+                  Prenez-vous en charge les patients souffrant de phobie dentaire ?
+                </span>
+                <span id="faq-icon-3" class="w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center shrink-0 font-extrabold text-base transition-transform duration-300">
+                  +
+                </span>
+              </button>
+              <div id="faq-ans-3" class="hidden px-5 sm:px-6 pb-5 sm:pb-6 text-sm text-silver-300 leading-relaxed border-t border-white/5 pt-4">
+                <p id="faq-a3">
+                  Oui, c'est l'une de nos grandes spécialités. Le Dr. Thinard et son équipe prennent le temps d'écouter vos craintes, d'expliquer chaque étape et d'adapter le rythme du soin sans aucun jugement ni précipitation.
+                </p>
+              </div>
+            </div>
+
+            <!-- FAQ 4 -->
+            <div class="faq-item bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden transition-all duration-300 hover:border-white/20">
+              <button onclick="toggleFaq(4)" class="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 cursor-pointer">
+                <span id="faq-q4" class="text-base sm:text-lg font-bold text-silver-100 [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+                  Acceptez-vous les assurances suisses et internationales ?
+                </span>
+                <span id="faq-icon-4" class="w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center shrink-0 font-extrabold text-base transition-transform duration-300">
+                  +
+                </span>
+              </button>
+              <div id="faq-ans-4" class="hidden px-5 sm:px-6 pb-5 sm:pb-6 text-sm text-silver-300 leading-relaxed border-t border-white/5 pt-4">
+                <p id="faq-a4">
+                  Oui. Nous fournissons des devis détaillés conformes aux normes DENTOTAR® (SSO) et vous accompagnons dans les démarches de remboursement auprès des assurances complémentaires suisses et internationales.
+                </p>
+              </div>
+            </div>
+
+            <!-- FAQ 5 -->
+            <div class="faq-item bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden transition-all duration-300 hover:border-white/20">
+              <button onclick="toggleFaq(5)" class="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 cursor-pointer">
+                <span id="faq-q5" class="text-base sm:text-lg font-bold text-silver-100 [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+                  Comment se déroule la première consultation d'évaluation ?
+                </span>
+                <span id="faq-icon-5" class="w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center shrink-0 font-extrabold text-base transition-transform duration-300">
+                  +
+                </span>
+              </button>
+              <div id="faq-ans-5" class="hidden px-5 sm:px-6 pb-5 sm:pb-6 text-sm text-silver-300 leading-relaxed border-t border-white/5 pt-4">
+                <p id="faq-a5">
+                  La première consultation comprend un examen clinique approfondi, des radiographies numériques si nécessaire, et un échange ouvert sur vos attentes pour établir un plan de traitement clair, sur-mesure et sans engagement.
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+    </div>
+
+
+    <!-- ==========================================
+         INSTITUTIONAL FOOTER (COMPLIANCE & CREDIBILITY)
+         ========================================== -->
+    <footer class="w-full max-w-[1280px] py-12 px-4 sm:px-6 md:px-10 bg-zinc-950/90 border-t border-white/10 rounded-3xl flex flex-col md:flex-row items-center justify-between text-xs text-zinc-400 gap-6 backdrop-blur-md">
+      <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 text-center sm:text-left">
+        <span class="font-extrabold text-sm text-silver-100 tracking-tight">GENEVA DENTAL CLINIC</span>
+        <span class="hidden sm:inline text-zinc-600">•</span>
+        <span id="footer-copy">© 2026 Geneva Dental Clinic. Tous droits réservés.</span>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-5 text-zinc-400 font-medium">
+        <a href="#" class="hover:text-white transition-colors" id="footer-link-privacy">Politique de Confidentialité</a>
+        <span class="text-zinc-700">•</span>
+        <a href="#" class="hover:text-white transition-colors" id="footer-link-terms">Conditions Générales</a>
+        <span class="text-zinc-700">•</span>
+        <a href="#" class="hover:text-white transition-colors" id="footer-link-legal">Mentions Légales</a>
+      </div>
+    </footer>
+
+  </main>
+
+
+  <!-- ==========================================
+       PERSISTENT FLOATING WHATSAPP BUTTON (CALL TO ACTION)
+       ========================================== -->
+  <a href="https://api.whatsapp.com/send?phone=+41788509393" target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 z-50 group flex items-center justify-center w-14 h-14 rounded-full bg-emerald-500 text-white shadow-[0_10px_30px_rgba(16,185,129,0.5)] hover:bg-emerald-400 hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer" aria-label="Chat on WhatsApp" title="Chat on WhatsApp">
+    <span class="absolute -inset-1 rounded-full bg-emerald-400 opacity-40 animate-ping pointer-events-none"></span>
+    <svg class="w-7 h-7 fill-white" viewBox="0 0 24 24">
+      <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.04 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.53 7.34C9.33 7.34 9 7.42 8.73 7.71C8.45 8.01 7.69 8.72 7.69 10.19C7.69 11.66 8.76 13.07 8.91 13.27C9.06 13.47 11.02 16.5 14.05 17.8C14.77 18.11 15.33 18.3 15.77 18.44C16.49 18.67 17.15 18.64 17.67 18.56C18.25 18.47 19.46 17.82 19.71 17.11C19.96 16.41 19.96 15.81 19.89 15.69C19.82 15.56 19.62 15.48 19.32 15.33C19.02 15.18 17.55 14.45 17.27 14.35C17 14.25 16.8 14.2 16.6 14.5C16.4 14.8 15.84 15.5 15.67 15.7C15.5 15.9 15.32 15.92 15.02 15.77C14.72 15.62 13.77 15.31 12.64 14.3C11.76 13.51 11.16 12.54 10.99 12.24C10.82 11.94 10.97 11.78 11.12 11.63C11.26 11.5 11.43 11.27 11.58 11.1C11.73 10.93 11.78 10.8 11.88 10.6C11.98 10.4 11.93 10.23 11.86 10.08C11.78 9.93 11.18 8.46 10.93 7.86C10.68 7.28 10.44 7.35 10.25 7.34C10.08 7.34 9.88 7.34 9.53 7.34Z" />
+    </svg>
+  </a>
+
+
+  <!-- ==========================================
+       INTERACTIVE CONSULTATION MODAL (TRANSPARENT SILVER GLASS)
+       ========================================== -->
+  <div id="modal-consultation" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300" onclick="closeModal()">
+    <div class="relative w-full max-w-lg bg-black/80 border border-white/20 backdrop-blur-xl rounded-3xl p-6 sm:p-8 shadow-2xl text-white" onclick="event.stopPropagation()">
+      
+      <!-- Close Button -->
+      <button onclick="closeModal()" class="absolute top-5 right-5 p-2 text-silver-300 hover:text-white rounded-full bg-white/10 hover:bg-white/20 transition-colors cursor-pointer" aria-label="Close modal">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <!-- Modal Body -->
+      <div id="modal-form-view">
+        <div class="mb-6">
+          <span class="text-xs uppercase font-bold tracking-widest text-silver-400">Geneva Dental Clinic</span>
+          <h2 id="modal-title" class="text-2xl sm:text-3xl font-extrabold text-silver-gradient mt-1">Book Your Consultation</h2>
+          <p id="modal-subtitle" class="text-sm text-silver-300 mt-1">Experience precision dental restoration tailored for your confident smile.</p>
+        </div>
+
+        <!-- WhatsApp Quick Link -->
+        <a href="https://api.whatsapp.com/send?phone=+41788509393" target="_blank" rel="noopener noreferrer" class="mb-5 flex items-center justify-between p-3.5 rounded-2xl silver-glass-card hover:border-emerald-400/60 transition-all group cursor-pointer">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/40">
+              <svg class="w-5 h-5 fill-emerald-400" viewBox="0 0 24 24">
+                <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.04 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.53 7.34C9.33 7.34 9 7.42 8.73 7.71C8.45 8.01 7.69 8.72 7.69 10.19C7.69 11.66 8.76 13.07 8.91 13.27C9.06 13.47 11.02 16.5 14.05 17.8C14.77 18.11 15.33 18.3 15.77 18.44C16.49 18.67 17.15 18.64 17.67 18.56C18.25 18.47 19.46 17.82 19.71 17.11C19.96 16.41 19.96 15.81 19.89 15.69C19.82 15.56 19.62 15.48 19.32 15.33C19.02 15.18 17.55 14.45 17.27 14.35C17 14.25 16.8 14.2 16.6 14.5C16.4 14.8 15.84 15.5 15.67 15.7C15.5 15.9 15.32 15.92 15.02 15.77C14.72 15.62 13.77 15.31 12.64 14.3C11.76 13.51 11.16 12.54 10.99 12.24C10.82 11.94 10.97 11.78 11.12 11.63C11.26 11.5 11.43 11.27 11.58 11.1C11.73 10.93 11.78 10.8 11.88 10.6C11.98 10.4 11.93 10.23 11.86 10.08C11.78 9.93 11.18 8.46 10.93 7.86C10.68 7.28 10.44 7.35 10.25 7.34C10.08 7.34 9.88 7.34 9.53 7.34Z" />
+              </svg>
+            </div>
+            <div>
+              <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                <span id="modal-whatsapp-text">Chat on WhatsApp</span>
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              </div>
+              <div class="text-[11px] text-emerald-400 font-mono">+41 78 850 93 93</div>
+            </div>
+          </div>
+          <div class="text-xs font-semibold text-silver-300 group-hover:text-white flex items-center gap-1">
+            <span id="modal-whatsapp-btn-text">Open Chat</span>
+            <span class="text-emerald-400 font-bold">→</span>
+          </div>
+        </a>
+
+        <!-- Form -->
+        <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+          <div>
+            <label id="modal-label-name" class="block text-xs font-semibold text-silver-300 mb-1.5 uppercase tracking-wider">Full Name</label>
+            <input type="text" id="form-name" required placeholder="Jane Doe" class="w-full bg-slate-900/50 border border-silver-300/20 rounded-xl px-4 py-2.5 text-sm text-silver-100 placeholder-silver-400/50 focus:outline-none focus:border-white transition-colors">
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label id="modal-label-email" class="block text-xs font-semibold text-silver-300 mb-1.5 uppercase tracking-wider">Email Address</label>
+              <input type="email" required placeholder="jane@example.com" class="w-full bg-slate-900/50 border border-silver-300/20 rounded-xl px-4 py-2.5 text-sm text-silver-100 placeholder-silver-400/50 focus:outline-none focus:border-white transition-colors">
+            </div>
+            <div>
+              <label id="modal-label-phone" class="block text-xs font-semibold text-silver-300 mb-1.5 uppercase tracking-wider">Phone Number</label>
+              <input type="tel" placeholder="+41 78 850 93 93" class="w-full bg-slate-900/50 border border-silver-300/20 rounded-xl px-4 py-2.5 text-sm text-silver-100 placeholder-silver-400/50 focus:outline-none focus:border-white transition-colors">
+            </div>
+          </div>
+
+          <div>
+            <label id="modal-label-date" class="block text-xs font-semibold text-silver-300 mb-1.5 uppercase tracking-wider">Preferred Date</label>
+            <input type="date" class="w-full bg-slate-900/50 border border-silver-300/20 rounded-xl px-4 py-2.5 text-sm text-silver-100 placeholder-silver-400/50 focus:outline-none focus:border-white transition-colors">
+          </div>
+
+          <button type="submit" class="w-full mt-2 py-3 px-6 rounded-full silver-button font-bold text-sm tracking-wide cursor-pointer shadow-lg">
+            <span id="modal-btn-submit" class="text-slate-900 font-extrabold">Confirm Consultation Request</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Success State -->
+      <div id="modal-success-view" class="py-8 text-center space-y-4 hidden">
+        <div class="mx-auto flex items-center justify-center w-16 h-16 rounded-full bg-silver-200 text-slate-900">
+          <i data-lucide="check-circle-2" class="w-8 h-8"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-silver-gradient">Consultation Requested!</h3>
+        <p class="text-sm text-silver-300 max-w-sm mx-auto" id="modal-success-text">
+          Thank you! Our Geneva Clinic team will contact you shortly to confirm your appointment.
+        </p>
+        <button onclick="closeModal()" class="mt-4 px-6 py-2.5 rounded-full silver-button text-slate-900 font-semibold text-sm cursor-pointer">
+          Done
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+       JAVASCRIPT LOGIC & SCROLL ANIMATION ENGINE
+       ========================================== -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    /* ========================================================
+       1. CANVAS BACKGROUND SMOOTH SCROLL ANIMATION ENGINE
+       ======================================================== */
+    const FRAME_COUNT = 300;
+    const canvas = document.getElementById('animation-canvas');
+    const ctx = canvas.getContext('2d', { alpha: false });
+    const loader = document.getElementById('loader');
+    const loaderProgress = document.getElementById('loader-progress');
+
+    const images = [];
+    let loadedImagesCount = 0;
+    let targetProgress = 0;
+    let currentProgress = 0;
+    let renderedFrame = -1;
+
+    function getFrameUrl(index) {
+      const frameNum = String(index + 1).padStart(3, '0');
+      return `images/ezgif-frame-${frameNum}.jpg`;
+    }
+
+    function resizeCanvas() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+
+      const frameIdx = Math.round(currentProgress * (FRAME_COUNT - 1));
+      if (images[frameIdx] && images[frameIdx].complete) {
+        drawFrame(frameIdx);
+      }
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+
+    function drawFrame(index) {
+      const img = images[index];
+      if (!img || !img.complete || img.naturalWidth === 0) return;
+
+      const cw = canvas.width;
+      const ch = canvas.height;
+      const iw = img.naturalWidth;
+      const ih = img.naturalHeight;
+
+      const scale = Math.max(cw / iw, ch / ih);
+      const nw = iw * scale;
+      const nh = ih * scale;
+      const nx = (cw - nw) / 2;
+      const ny = (ch - nh) / 2;
+
+      ctx.drawImage(img, 0, 0, iw, ih, nx, ny, nw, nh);
+      renderedFrame = index;
+    }
+
+    function updateScroll() {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      if (maxScroll > 0) {
+        targetProgress = Math.max(0, Math.min(1, window.scrollY / maxScroll));
+      } else {
+        targetProgress = 0;
+      }
+    }
+
+    window.addEventListener('scroll', updateScroll, { passive: true });
+
+    function tick() {
+      // Lerp smoothing factor for silky responsive feel
+      currentProgress += (targetProgress - currentProgress) * 0.08;
+
+      const targetFrame = Math.min(
+        FRAME_COUNT - 1,
+        Math.max(0, Math.round(currentProgress * (FRAME_COUNT - 1)))
+      );
+
+      if (targetFrame !== renderedFrame) {
+        drawFrame(targetFrame);
+      }
+
+      updateScrollStack();
+      requestAnimationFrame(tick);
+    }
+
+    function preloadImages() {
+      resizeCanvas();
+
+      for (let i = 0; i < FRAME_COUNT; i++) {
+        const img = new Image();
+        img.src = getFrameUrl(i);
+
+        img.onload = () => {
+          loadedImagesCount++;
+          const percent = (loadedImagesCount / FRAME_COUNT) * 100;
+          loaderProgress.style.width = percent + '%';
+
+          if (i === 0) {
+            drawFrame(0);
+          }
+
+          if (loadedImagesCount === FRAME_COUNT) {
+            setTimeout(() => {
+              loader.classList.add('hidden');
+            }, 250);
+          }
+        };
+
+        img.onerror = () => {
+          loadedImagesCount++;
+          if (loadedImagesCount === FRAME_COUNT) {
+            loader.classList.add('hidden');
+          }
+        };
+
+        images.push(img);
+      }
+    }
+
+    // Start loading & render loop
+    updateScroll();
+    preloadImages();
+    requestAnimationFrame(tick);
+
+
+    /* ========================================================
+       2. SCROLLSTACK COMPONENT ENGINE (itemScale = 0.05)
+       ======================================================== */
+    const stackItems = document.querySelectorAll('.scroll-stack-item');
+    const ITEM_SCALE = 0.05; // 5% scale reduction per stacked card
+
+    function updateScrollStack() {
+      const viewportHeight = window.innerHeight;
+      const stickyTop = 110; // offset in px matching top-24/top-28
+
+      stackItems.forEach((item, index) => {
+        let overlapProgress = 0;
+        
+        for (let j = index + 1; j < stackItems.length; j++) {
+          const nextRect = stackItems[j].getBoundingClientRect();
+          if (nextRect.top <= stickyTop + 30) {
+            overlapProgress += 1;
+          } else if (nextRect.top < viewportHeight) {
+            const distance = viewportHeight - nextRect.top;
+            const total = viewportHeight - stickyTop;
+            const p = Math.max(0, Math.min(1, distance / total));
+            overlapProgress += p * 0.45;
+          }
+        }
+
+        const scale = Math.max(0.82, 1 - (overlapProgress * ITEM_SCALE));
+        const translateY = -overlapProgress * 8; // subtle upward stack step
+        const brightness = Math.max(0.65, 1 - (overlapProgress * 0.09));
+
+        item.style.transform = `scale(${scale.toFixed(4)}) translateY(${translateY.toFixed(2)}px)`;
+        item.style.filter = `brightness(${brightness.toFixed(3)})`;
+      });
+    }
+
+    window.addEventListener('scroll', updateScrollStack, { passive: true });
+    window.addEventListener('resize', updateScrollStack);
+
+
+    /* ========================================================
+       3. CLINIC MAP SWITCHER (SILVER TRANSPARENT)
+       ======================================================== */
+    function switchClinic(type) {
+      const frame = document.getElementById('clinic-map-frame');
+      const badge = document.getElementById('active-map-badge');
+      const btn1 = document.getElementById('clinic-btn-1');
+      const btn2 = document.getElementById('clinic-btn-2');
+
+      if (type === 'saintleger') {
+        frame.src = "https://maps.google.com/maps?q=Rue+Saint-L%C3%A9ger+8,+1204+Gen%C3%A8ve,+Switzerland&t=&z=17&ie=UTF8&iwloc=B&output=embed";
+        badge.innerText = "Rue Saint Léger, 8";
+        btn1.className = "clinic-btn active w-full rounded-2xl p-5 flex items-center justify-between border border-white bg-gradient-to-r from-white/90 to-silver-200/90 text-slate-900 shadow-lg scale-[1.01] transition-all duration-300 cursor-pointer group";
+        btn1.querySelector('span.uppercase').className = "text-[11px] font-bold uppercase tracking-widest text-slate-700";
+        btn1.querySelector('span.text-sm').className = "text-sm md:text-base font-extrabold text-slate-950 leading-snug";
+        btn1.querySelector('a').className = "w-11 h-11 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-md transition-all duration-300 hover:scale-110 active:scale-95";
+        
+        btn2.className = "clinic-btn w-full rounded-2xl p-5 flex items-center justify-between border border-silver-300/20 silver-glass-card text-silver-300 hover:border-silver-200/50 hover:text-white transition-all duration-300 cursor-pointer group";
+        btn2.querySelector('span.uppercase').className = "text-[11px] font-bold uppercase tracking-widest text-silver-400 group-hover:text-silver-200 transition-colors";
+        btn2.querySelector('span.text-sm').className = "text-sm md:text-base font-bold text-silver-200 group-hover:text-white leading-snug";
+        btn2.querySelector('a').className = "w-11 h-11 rounded-full bg-slate-800 text-silver-300 group-hover:bg-emerald-500 group-hover:text-white flex items-center justify-center shrink-0 shadow-sm transition-all duration-300 hover:scale-110 active:scale-95";
+      } else {
+        frame.src = "https://maps.google.com/maps?q=Rue+Pr%C3%A9vost-Martin+4B,+1205+Gen%C3%A8ve,+Switzerland&t=&z=17&ie=UTF8&iwloc=B&output=embed";
+        badge.innerText = "Rue Prévost-Martin 4B";
+        btn2.className = "clinic-btn active w-full rounded-2xl p-5 flex items-center justify-between border border-white bg-gradient-to-r from-white/90 to-silver-200/90 text-slate-900 shadow-lg scale-[1.01] transition-all duration-300 cursor-pointer group";
+        btn2.querySelector('span.uppercase').className = "text-[11px] font-bold uppercase tracking-widest text-slate-700";
+        btn2.querySelector('span.text-sm').className = "text-sm md:text-base font-extrabold text-slate-950 leading-snug";
+        btn2.querySelector('a').className = "w-11 h-11 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-md transition-all duration-300 hover:scale-110 active:scale-95";
+
+        btn1.className = "clinic-btn w-full rounded-2xl p-5 flex items-center justify-between border border-silver-300/20 silver-glass-card text-silver-300 hover:border-silver-200/50 hover:text-white transition-all duration-300 cursor-pointer group";
+        btn1.querySelector('span.uppercase').className = "text-[11px] font-bold uppercase tracking-widest text-silver-400 group-hover:text-silver-200 transition-colors";
+        btn1.querySelector('span.text-sm').className = "text-sm md:text-base font-bold text-silver-200 group-hover:text-white leading-snug";
+        btn1.querySelector('a').className = "w-11 h-11 rounded-full bg-slate-800 text-silver-300 group-hover:bg-emerald-500 group-hover:text-white flex items-center justify-center shrink-0 shadow-sm transition-all duration-300 hover:scale-110 active:scale-95";
+      }
+    }
+
+
+    /* ========================================================
+       4. CONSULTATION MODAL CONTROLLER
+       ======================================================== */
+    const modal = document.getElementById('modal-consultation');
+    const formView = document.getElementById('modal-form-view');
+    const successView = document.getElementById('modal-success-view');
+
+    function openModal() {
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+      }, 10);
+    }
+
+    function closeModal() {
+      modal.classList.add('opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        formView.classList.remove('hidden');
+        successView.classList.add('hidden');
+      }, 300);
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('form-name').value;
+      document.getElementById('modal-success-text').innerText = `Thank you, ${name || 'there'}! Our Geneva Clinic team will contact you shortly to confirm your appointment.`;
+      formView.classList.add('hidden');
+      successView.classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    /* ========================================================
+       5. LANGUAGE TOGGLE (EN / FR) & MOBILE MENU CONTROLLER
+       ======================================================== */
+    let currentLang = 'FR';
+
+    const TRANSLATIONS = {
+      EN: {
+        navAbout: 'About',
+        navResults: 'Results',
+        navPricing: 'Pricing',
+        navReviews: 'Reviews',
+        navContacts: 'Contacts',
+        btnContactsText: 'Contacts',
+        
+        // PillNav
+        pillHome: 'Home',
+        pillAbout: 'Expertise',
+        pillDoctor: 'Clinic',
+        pillReviews: 'Reviews',
+        pillFaq: 'FAQ',
+        pillContacts: 'Clinics',
+
+        // Section 1: Hero
+        heroTagline: 'SWISS DENTAL EXCELLENCE',
+        heroHeadline: '<span>The Art of Precision.</span><span class="mt-1 sm:mt-2">The Smile You Deserve.</span>',
+        heroSubheadline: 'World-class aesthetic dentistry and implantology in the heart of Geneva. Experience flawless results in a completely stress-free, pain-free environment.',
+        badgeTopRated: 'Top Rated on Google Maps',
+        badgeReviewsSub: 'Based on real patient reviews',
+        ctaPrimary: 'Book Your Consultation',
+        ctaSecondary: 'View Our Results',
+        qualityCare: 'Quality Care',
+        qualityCareDesc: 'Of excellence in dental surgery, implantology, and aesthetic dentistry in Geneva.',
+
+        // Section 2: Header & Stats
+        expBadgeTag: 'OUR EXPERTISE',
+        expMainHeadline: 'Dentistry, <br class="hidden sm:inline" /><span class="text-silver-400 font-light italic">precisely considered.</span>',
+        statExpLbl: 'Years of Experience',
+        statPatLbl: 'Treated Patients',
+        statSucLbl: 'Success Rate',
+
+        // Section 2: ScrollStack Cards
+        expCard1Tag: 'Handcrafted in Geneva',
+        expCard1Title: 'Aesthetic Dentistry',
+        expCard1MetricLbl: 'Personalization',
+        expCard1Head: 'Natural results, designed for you.',
+        expCard1Desc: 'Our porcelain veneers and ceramic restorations are handcrafted in a partner lab in Geneva, preserving the natural biological harmony of every smile.',
+        expCard1F1: 'Pure Handcrafted Ceramic',
+        expCard1F2: 'Ultra-thin Veneers',
+        expCard1F3: 'Digital Smile Design (DSD)',
+        expCard1F4: 'Facial Aesthetics Harmony',
+        expCard1BtnConsult: 'Consult',
+        expCard1BtnEval: 'Book Assessment →',
+
+        expCard2Tag: 'Straumann® Swiss Precision',
+        expCard2Title: 'Implantology',
+        expCard2MetricLbl: 'Osseointegration',
+        expCard2Head: 'Precision from planning to placement.',
+        expCard2Desc: '3D computer-guided surgical planning and Swiss Straumann® implants, ensuring maximum predictability, osseointegration, and absolute comfort.',
+        expCard2F1: 'Straumann Swiss Implants',
+        expCard2F2: 'Computer-Guided Surgery',
+        expCard2F3: 'Immediate Load Protocol',
+        expCard2F4: 'Advanced Bone Regeneration',
+        expCard2BtnConsult: 'Consult',
+        expCard2BtnEval: 'Book Assessment →',
+
+        expCard3Tag: 'Digital Aligner Systems',
+        expCard3Title: 'Orthodontics',
+        expCard3MetricLbl: 'Aligned Smiles',
+        expCard3Head: 'Function, balance and confidence.',
+        expCard3Desc: 'Orthodontic care focused on both aesthetics and function, promoting occlusal stability and alignment with invisible aligners and 3D intraoral scanning.',
+        expCard3F1: 'Clear Aligners',
+        expCard3F2: '3D Occlusal Planning',
+        expCard3F3: 'HD Intraoral Scanning',
+        expCard3F4: 'Accelerated Treatment',
+        expCard3BtnConsult: 'Consult',
+        expCard3BtnEval: 'Book Assessment →',
+
+        expCard4Tag: 'Optical Microscopy',
+        expCard4Title: 'Preventive Dentistry',
+        expCard4MetricLbl: 'Optical Precision',
+        expCard4Head: 'Preserve what is naturally yours.',
+        expCard4Desc: 'Biomimetic and minimally invasive dentistry with optical surgical microscopy, preventing unnecessary interventions and conserving tooth structure.',
+        expCard4F1: 'High-Precision Microscope',
+        expCard4F2: 'Laser Diagnostics',
+        expCard4F3: 'Biological Preservation',
+        expCard4F4: 'AirFlow® Guided Cleaning',
+        expCard4BtnConsult: 'Consult',
+        expCard4BtnEval: 'Book Assessment →',
+
+        // Section 3: Contact & Clinics
+        contactMainTitle: 'Get in touch, let us know <br class="hidden md:block" /> how we can help',
+        chooseClinicTitle: 'Choose your clinic',
+        chooseClinicDesc: 'Select a location to view on the map or tap the WhatsApp button to chat directly with our team.',
+        emailCardLbl: 'Email address',
+        phoneCardLbl: 'Phone Number',
+        locationCardLbl: 'Our Location',
+        locationCardVal: 'Geneva, Switzerland',
+
+        // Section 4: Testimonials
+        testimonialsTagText: 'OUR PATIENTS SHARE THEIR EXPERIENCE',
+        testimonialsMainTitle: 'At Geneva Dental Clinic, we care for every smile',
+
+        // Section 5: Clinic Authority
+        expertPhotoTag: '📍 Geneva, Switzerland',
+        expertPhotoSub: 'Excellence & Comfort',
+        expertBadgeTag: 'OUR CLINIC',
+        expertTitle: 'Dental Excellence in the Heart of Geneva',
+        expertSubtitle: 'Swiss Technology & Absolute Comfort',
+        expertBio: 'Discover a space designed for your well-being. At Geneva Dental Clinic, we combine cutting-edge technology with a deeply human approach. Specialized in aesthetics and implantology, we offer a soothing environment, ideal for overcoming dental anxiety with protocols guaranteeing pain-free care.',
+        expertCred1: 'Cutting-Edge Technology (3D Scanner)',
+        expertCred2: 'Relaxing & Premium Setting',
+        expertCred3: 'Gentle Approach (Zero Phobia)',
+        expertCred4: '+15 Years of Swiss Expertise',
+        expertBtnConsult: 'BOOK A CONSULTATION',
+        expertBtnWhatsapp: 'EXPLORE THE CLINIC',
+
+        // Section 6: FAQ
+        faqTag: 'FREQUENTLY ASKED QUESTIONS',
+        faqMainTitle: 'Common Questions',
+        faqSubTitle: 'Everything you need to know before your consultation at Geneva Dental Clinic.',
+        faqQ1: 'Does the dental implant procedure hurt?',
+        faqA1: 'No. Thanks to state-of-the-art local anesthesia and 3D computer-guided planning, the procedure is completely painless. For nervous patients, gentle sedation solutions are available for total peace of mind.',
+        faqQ2: 'How long do porcelain dental veneers last?',
+        faqA2: 'Our handcrafted pure ceramic veneers, crafted in our Geneva partner laboratory, last 15 to 20+ years with proper oral hygiene and regular check-ups.',
+        faqQ3: 'Do you manage nervous or dental-phobic patients?',
+        faqA3: 'Yes, it is one of our core specialties. Dr. Thinard and his team dedicate time to address your concerns, explain every step, and adapt the pace without judgment or rush.',
+        faqQ4: 'Do you accept Swiss and international insurances?',
+        faqA4: 'Yes. We provide transparent estimates compliant with SSO DENTOTAR® standards and assist you in filing claims with Swiss and international health insurances.',
+        faqQ5: 'How does the initial assessment consultation work?',
+        faqA5: 'The initial visit includes a comprehensive examination, digital imaging if required, and a tailored discussion to design a clear, transparent treatment plan.',
+
+        // Footer
+        footerTagline: 'Swiss Dental & Aesthetic Excellence',
+        footerCopy: '© 2026 Geneva Dental Clinic. All rights reserved.',
+        footerLinkPrivacy: 'Privacy Policy',
+        footerLinkTerms: 'Terms of Service',
+        footerLinkLegal: 'Legal Notice',
+
+        // Modal
+        modalTitle: 'Book Your Consultation',
+        modalSubtitle: 'Experience precision dental restoration tailored for your confident smile.',
+        modalWhatsappText: 'Chat on WhatsApp',
+        modalWhatsappBtnText: 'Open Chat',
+        modalLabelName: 'Full Name',
+        modalLabelEmail: 'Email Address',
+        modalLabelPhone: 'Phone Number',
+        modalLabelDate: 'Preferred Date',
+        modalBtnSubmit: 'Confirm Consultation Request'
+      },
+      FR: {
+        navAbout: 'À Propos',
+        navResults: 'Résultats',
+        navPricing: 'Tarifs',
+        navReviews: 'Avis',
+        navContacts: 'Contacts',
+        btnContactsText: 'Contacts',
+        
+        // PillNav
+        pillHome: 'Accueil',
+        pillAbout: 'Expertise',
+        pillDoctor: 'Clinique',
+        pillReviews: 'Avis',
+        pillFaq: 'FAQ',
+        pillContacts: 'Cliniques',
+
+        // Section 1: Hero
+        heroTagline: 'EXCELLENCE DENTAIRE SUISSE',
+        heroHeadline: '<span>L\'Art de la Précision.</span><span class="mt-1 sm:mt-2">Le Sourire Que Vous Méritez.</span>',
+        heroSubheadline: 'Dentisterie esthétique et implantologie d\'excellence au cœur de Genève. Des résultats parfaits dans un environnement serein et sans douleur.',
+        badgeTopRated: 'Mieux Noté sur Google Maps',
+        badgeReviewsSub: 'Basé sur des avis vérifiés de patients',
+        ctaPrimary: 'Réserver une Consultation',
+        ctaSecondary: 'Découvrir Nos Résultats',
+        qualityCare: 'Soins d\'Excellence',
+        qualityCareDesc: 'D\'excellence en chirurgie dentaire, implantologie et dentisterie esthétique à Genève.',
+
+        // Section 2: Header & Stats
+        expBadgeTag: 'NOTRE EXPERTISE',
+        expMainHeadline: 'La dentisterie, <br class="hidden sm:inline" /><span class="text-silver-400 font-light italic">pensée avec précision.</span>',
+        statExpLbl: 'Années d\'Expérience',
+        statPatLbl: 'Patients Accompagnés',
+        statSucLbl: 'Taux de Réussite',
+
+        // Section 2: ScrollStack Cards
+        expCard1Tag: 'Confectionné à Genève',
+        expCard1Title: 'Dentisterie Esthétique',
+        expCard1MetricLbl: 'Sur-mesure',
+        expCard1Head: 'Des résultats naturels, pensés pour vous.',
+        expCard1Desc: 'Nos facettes en porcelaine et céramiques sont confectionnées artisanalement dans notre laboratoire partenaire à Genève, préservant l\'harmonie naturelle de votre sourire.',
+        expCard1F1: 'Céramique Pure Artisanale',
+        expCard1F2: 'Facettes Ultra-fines',
+        expCard1F3: 'Design Numérique du Sourire (DSD)',
+        expCard1F4: 'Harmonisation Esthétique Faciale',
+        expCard1BtnConsult: 'Consulter',
+        expCard1BtnEval: 'Prendre Rendez-vous →',
+
+        expCard2Tag: 'Précision Suisse Straumann®',
+        expCard2Title: 'Implantologie',
+        expCard2MetricLbl: 'Ostéointégration',
+        expCard2Head: 'La précision, de la planification à la pose.',
+        expCard2Desc: 'Planification chirurgicale 3D guidée par ordinateur et implants suisses Straumann®, garantissant prévisibilité maximale, ostéointégration supérieure et confort absolu.',
+        expCard2F1: 'Implants Suisses Straumann',
+        expCard2F2: 'Chirurgie Guidée par Ordinateur',
+        expCard2F3: 'Protocole de Mise en Charge Immédiate',
+        expCard2F4: 'Régénération Osseuse Avancée',
+        expCard2BtnConsult: 'Consulter',
+        expCard2BtnEval: 'Prendre Rendez-vous →',
+
+        expCard3Tag: 'Systèmes d\'Aligneurs Numériques',
+        expCard3Title: 'Orthodontie',
+        expCard3MetricLbl: 'Sourires Alignés',
+        expCard3Head: 'Fonction, équilibre et confiance.',
+        expCard3Desc: 'Une prise en charge orthodontique alliant esthétique et biomécanique fonctionnelle, assurant stabilité et harmonie grâce aux aligneurs invisibles et scanners 3D.',
+        expCard3F1: 'Aligneurs Transparents',
+        expCard3F2: 'Planification Occlusale 3D',
+        expCard3F3: 'Empreinte Optique HD 3D',
+        expCard3F4: 'Traitement Accéléré',
+        expCard3BtnConsult: 'Consulter',
+        expCard3BtnEval: 'Prendre Rendez-vous →',
+
+        expCard4Tag: 'Microscopie Optique',
+        expCard4Title: 'Dentisterie Préventive',
+        expCard4MetricLbl: 'Précision Optique',
+        expCard4Head: 'Préserver ce qui vous appartient naturellement.',
+        expCard4Desc: 'Dentisterie biomimétique et mini-invasive sous microscope opératoire à fort grossissement, évitant les interventions inutiles et préservant les tissus sains.',
+        expCard4F1: 'Microscope Clinique Haute Précision',
+        expCard4F2: 'Diagnostic Laser Avancé',
+        expCard4F3: 'Préservation Biologique',
+        expCard4F4: 'Aéropolissage Guidé AirFlow®',
+        expCard4BtnConsult: 'Consulter',
+        expCard4BtnEval: 'Prendre Rendez-vous →',
+
+        // Section 3: Contact & Clinics
+        contactMainTitle: 'Prenez contact, faites-nous savoir <br class="hidden md:block" /> comment nous pouvons vous aider',
+        chooseClinicTitle: 'Choisissez votre clinique',
+        chooseClinicDesc: 'Sélectionnez un lieu pour l\'afficher sur la carte ou cliquez sur le bouton WhatsApp pour échanger directement avec notre équipe.',
+        emailCardLbl: 'Adresse Email',
+        phoneCardLbl: 'Numéro de Téléphone',
+        locationCardLbl: 'Notre Emplacement',
+        locationCardVal: 'Genève, Suisse',
+
+        // Section 4: Testimonials
+        testimonialsTagText: 'NOS PATIENTS TÉMOIGNENT',
+        testimonialsMainTitle: 'À la Geneva Dental Clinic, nous prenons soin de chaque sourire',
+
+        // Section 5: Clinic Authority
+        expertPhotoTag: '📍 Genève, Suisse',
+        expertPhotoSub: 'Excellence & Confort',
+        expertBadgeTag: 'NOTRE CLINIQUE',
+        expertTitle: "L'Excellence Dentaire au Cœur de Genève",
+        expertSubtitle: 'Technologie Suisse & Confort Absolu',
+        expertBio: "Découvrez un espace conçu pour votre bien-être. À la Geneva Dental Clinic, nous allions des équipements de pointe à une approche profondément humaine. Spécialisés dans l'esthétique et l'implantologie, nous offrons un environnement apaisant, idéal pour surmonter l'anxiété dentaire avec des protocoles garantissant des soins sans douleur.",
+        expertCred1: 'Technologie de Pointe (Scanner 3D)',
+        expertCred2: 'Cadre Relaxant & Premium',
+        expertCred3: 'Approche Douce (Zéro Phobie)',
+        expertCred4: "+15 Ans d'Expertise Suisse",
+        expertBtnConsult: 'RÉSERVER UNE CONSULTATION',
+        expertBtnWhatsapp: 'VOIR LA CLINIQUE',
+
+        // Section 6: FAQ
+        faqTag: 'QUESTIONS FRÉQUENTES',
+        faqMainTitle: 'Questions Fréquentes',
+        faqSubTitle: 'Tout ce que vous devez savoir avant votre consultation à la Geneva Dental Clinic.',
+        faqQ1: 'La pose d\'implants dentaires est-elle douloureuse ?',
+        faqA1: 'Non. Grâce à l\'anesthésie locale de pointe et à la planification 3D guidée par ordinateur, l\'intervention est totalement indolore. Pour les patients très anxieux, nous proposons des solutions de sédation douce pour un confort absolu tout au long du soin.',
+        faqQ2: 'Combien de temps durent les facettes dentaires en céramique ?',
+        faqA2: 'Nos facettes en céramique pure, confectionnées artisanalement dans notre laboratoire partenaire à Genève, ont une durée de vie moyenne de 15 à 20 ans avec une bonne hygiène bucco-dentaire et des contrôles réguliers.',
+        faqQ3: 'Prenez-vous en charge les patients souffrant de phobie dentaire ?',
+        faqA3: 'Oui, c\'est l\'une de nos grandes spécialités. Le Dr. Thinard et son équipe prennent le temps d\'écouter vos craintes, d\'expliquer chaque étape et d\'adapter le rythme du soin sans aucun jugement ni précipitation.',
+        faqQ4: 'Acceptez-vous les assurances suisses et internationales ?',
+        faqA4: 'Oui. Nous fournissons des devis détaillés conformes aux normes DENTOTAR® (SSO) et vous accompagnons dans les démarches de remboursement auprès des assurances complémentaires suisses et internationales.',
+        faqQ5: 'Comment se déroule la première consultation d\'évaluation ?',
+        faqA5: 'La première consultation comprend un examen clinique approfondi, des radiographies numériques si nécessaire, et un échange ouvert sur vos attentes pour établir un plan de traitement clair, sur-mesure et sans engagement.',
+
+        // Footer
+        footerTagline: 'Excellence Dentaire & Esthétique Suisse',
+        footerCopy: '© 2026 Geneva Dental Clinic. Tous droits réservés.',
+        footerLinkPrivacy: 'Politique de Confidentialité',
+        footerLinkTerms: 'Conditions Générales',
+        footerLinkLegal: 'Mentions Légales',
+
+        // Modal
+        modalTitle: 'Réserver une Consultation',
+        modalSubtitle: 'Découvrez des soins dentaires de haute précision pour sublimer votre sourire.',
+        modalWhatsappText: 'Discuter sur WhatsApp',
+        modalWhatsappBtnText: 'Ouvrir Chat',
+        modalLabelName: 'Nom Complet',
+        modalLabelEmail: 'Adresse Email',
+        modalLabelPhone: 'Numéro de Téléphone',
+        modalLabelDate: 'Date Souhaitée',
+        modalBtnSubmit: 'Confirmer la Demande de Consultation'
+      }
+    };
+
+    function setLanguage(lang) {
+      currentLang = lang.toUpperCase();
+      const t = TRANSLATIONS[currentLang];
+      if (!t) return;
+
+      // Update Desktop & Mobile Toggle Buttons
+      const btnEnDesk = document.getElementById('btn-lang-en-desktop');
+      const btnFrDesk = document.getElementById('btn-lang-fr-desktop');
+      const btnEnMob = document.getElementById('btn-lang-en-mobile');
+      const btnFrMob = document.getElementById('btn-lang-fr-mobile');
+
+      const activeClass = "px-2.5 py-1 rounded-full transition-all duration-300 bg-white text-black font-extrabold shadow-sm cursor-pointer";
+      const inactiveClass = "px-2.5 py-1 rounded-full transition-all duration-300 text-neutral-400 hover:text-white font-bold cursor-pointer";
+      const activeMobClass = "px-3 py-1 rounded-full transition-all duration-300 bg-white text-black font-extrabold shadow-sm cursor-pointer";
+      const inactiveMobClass = "px-3 py-1 rounded-full transition-all duration-300 text-neutral-400 hover:text-white font-bold cursor-pointer";
+
+      if (currentLang === 'EN') {
+        if (btnEnDesk) btnEnDesk.className = activeClass;
+        if (btnFrDesk) btnFrDesk.className = inactiveClass;
+        if (btnEnMob) btnEnMob.className = activeMobClass;
+        if (btnFrMob) btnFrMob.className = inactiveMobClass;
+      } else {
+        if (btnEnDesk) btnEnDesk.className = inactiveClass;
+        if (btnFrDesk) btnFrDesk.className = activeClass;
+        if (btnEnMob) btnEnMob.className = inactiveMobClass;
+        if (btnFrMob) btnFrMob.className = activeMobClass;
+      }
+
+      // Helper function to safely set element text or HTML
+      const setElText = (id, val) => {
+        const el = document.getElementById(id);
+        if (el && val !== undefined) el.innerText = val;
+      };
+      const setElHTML = (id, val) => {
+        const el = document.getElementById(id);
+        if (el && val !== undefined) el.innerHTML = val;
+      };
+
+      // PillNav labels
+      setElText('pill-label-home', t.pillHome);
+      setElText('pill-label-home-h', t.pillHome);
+      setElText('pill-label-about', t.pillAbout);
+      setElText('pill-label-about-h', t.pillAbout);
+      setElText('pill-label-doctor', t.pillDoctor);
+      setElText('pill-label-doctor-h', t.pillDoctor);
+      setElText('pill-label-reviews', t.pillReviews);
+      setElText('pill-label-reviews-h', t.pillReviews);
+      setElText('pill-label-faq', t.pillFaq);
+      setElText('pill-label-faq-h', t.pillFaq);
+      setElText('pill-label-contacts', t.pillContacts);
+      setElText('pill-label-contacts-h', t.pillContacts);
+
+      setElText('mob-nav-home', t.pillHome);
+      setElText('mob-nav-about', t.pillAbout);
+      setElText('mob-nav-doctor', t.pillDoctor);
+      setElText('mob-nav-reviews', t.pillReviews);
+      setElText('mob-nav-faq', t.pillFaq);
+      setElText('mob-nav-contacts', t.pillContacts);
+
+      setElText('btn-contacts-text', t.btnContactsText);
+
+      // Section 1: Hero
+      setElText('hero-tagline', t.heroTagline);
+      setElHTML('hero-headline', t.heroHeadline);
+      setElText('hero-subheadline', t.heroSubheadline);
+      setElText('badge-top-rated', t.badgeTopRated);
+      setElText('badge-reviews-sub', t.badgeReviewsSub);
+      setElText('cta-primary-text', t.ctaPrimary);
+      setElText('cta-secondary-text', t.ctaSecondary);
+
+      // Section 2: Header & Stats
+      setElText('exp-badge-tag', t.expBadgeTag);
+      setElHTML('exp-main-headline', t.expMainHeadline);
+      setElText('stat-exp-lbl', t.statExpLbl);
+      setElText('stat-pat-lbl', t.statPatLbl);
+      setElText('stat-suc-lbl', t.statSucLbl);
+
+      // Section 2: ScrollStack Cards
+      // Card 1
+      setElText('exp-card-1-tag', t.expCard1Tag);
+      setElText('exp-card-1-title', t.expCard1Title);
+      setElText('exp-card-1-metric-lbl', t.expCard1MetricLbl);
+      setElText('exp-card-1-head', t.expCard1Head);
+      setElText('exp-card-1-desc', t.expCard1Desc);
+      setElText('exp-card-1-f1', t.expCard1F1);
+      setElText('exp-card-1-f2', t.expCard1F2);
+      setElText('exp-card-1-f3', t.expCard1F3);
+      setElText('exp-card-1-f4', t.expCard1F4);
+      setElText('exp-card-1-btn-consult', t.expCard1BtnConsult);
+      setElText('exp-card-1-btn-eval', t.expCard1BtnEval);
+
+      // Card 2
+      setElText('exp-card-2-tag', t.expCard2Tag);
+      setElText('exp-card-2-title', t.expCard2Title);
+      setElText('exp-card-2-metric-lbl', t.expCard2MetricLbl);
+      setElText('exp-card-2-head', t.expCard2Head);
+      setElText('exp-card-2-desc', t.expCard2Desc);
+      setElText('exp-card-2-f1', t.expCard2F1);
+      setElText('exp-card-2-f2', t.expCard2F2);
+      setElText('exp-card-2-f3', t.expCard2F3);
+      setElText('exp-card-2-f4', t.expCard2F4);
+      setElText('exp-card-2-btn-consult', t.expCard2BtnConsult);
+      setElText('exp-card-2-btn-eval', t.expCard2BtnEval);
+
+      // Card 3
+      setElText('exp-card-3-tag', t.expCard3Tag);
+      setElText('exp-card-3-title', t.expCard3Title);
+      setElText('exp-card-3-metric-lbl', t.expCard3MetricLbl);
+      setElText('exp-card-3-head', t.expCard3Head);
+      setElText('exp-card-3-desc', t.expCard3Desc);
+      setElText('exp-card-3-f1', t.expCard3F1);
+      setElText('exp-card-3-f2', t.expCard3F2);
+      setElText('exp-card-3-f3', t.expCard3F3);
+      setElText('exp-card-3-f4', t.expCard3F4);
+      setElText('exp-card-3-btn-consult', t.expCard3BtnConsult);
+      setElText('exp-card-3-btn-eval', t.expCard3BtnEval);
+
+      // Card 4
+      setElText('exp-card-4-tag', t.expCard4Tag);
+      setElText('exp-card-4-title', t.expCard4Title);
+      setElText('exp-card-4-metric-lbl', t.expCard4MetricLbl);
+      setElText('exp-card-4-head', t.expCard4Head);
+      setElText('exp-card-4-desc', t.expCard4Desc);
+      setElText('exp-card-4-f1', t.expCard4F1);
+      setElText('exp-card-4-f2', t.expCard4F2);
+      setElText('exp-card-4-f3', t.expCard4F3);
+      setElText('exp-card-4-f4', t.expCard4F4);
+      setElText('exp-card-4-btn-consult', t.expCard4BtnConsult);
+      setElText('exp-card-4-btn-eval', t.expCard4BtnEval);
+
+      // Section 3: Contact
+      setElHTML('contact-main-title', t.contactMainTitle);
+      setElText('choose-clinic-title', t.chooseClinicTitle);
+      setElText('choose-clinic-desc', t.chooseClinicDesc);
+      setElText('email-card-lbl', t.emailCardLbl);
+      setElText('phone-card-lbl', t.phoneCardLbl);
+      setElText('location-card-lbl', t.locationCardLbl);
+      setElText('location-card-val', t.locationCardVal);
+
+      // Section 4: Testimonials
+      setElText('testimonials-tag-text', t.testimonialsTagText);
+      setElText('testimonials-main-title', t.testimonialsMainTitle);
+
+      // Section 5: Clinic Authority
+      setElText('expert-photo-tag', t.expertPhotoTag);
+      setElText('expert-photo-sub', t.expertPhotoSub);
+      setElText('expert-badge-tag', t.expertBadgeTag);
+      setElText('expert-title', t.expertTitle);
+      setElText('expert-subtitle', t.expertSubtitle);
+      setElText('expert-bio', t.expertBio);
+      setElText('expert-cred-1', t.expertCred1);
+      setElText('expert-cred-2', t.expertCred2);
+      setElText('expert-cred-3', t.expertCred3);
+      setElText('expert-cred-4', t.expertCred4);
+      setElText('expert-btn-consult', t.expertBtnConsult);
+      setElText('expert-btn-whatsapp', t.expertBtnWhatsapp);
+
+      // Section 6: FAQ
+      setElText('faq-tag', t.faqTag);
+      setElText('faq-main-title', t.faqMainTitle);
+      setElText('faq-sub-title', t.faqSubTitle);
+      setElText('faq-q1', t.faqQ1);
+      setElText('faq-a1', t.faqA1);
+      setElText('faq-q2', t.faqQ2);
+      setElText('faq-a2', t.faqA2);
+      setElText('faq-q3', t.faqQ3);
+      setElText('faq-a3', t.faqA3);
+      setElText('faq-q4', t.faqQ4);
+      setElText('faq-a4', t.faqA4);
+      setElText('faq-q5', t.faqQ5);
+      setElText('faq-a5', t.faqA5);
+
+      // Footer
+      setElText('footer-tagline', t.footerTagline);
+      setElText('footer-copy', t.footerCopy);
+      setElText('footer-link-privacy', t.footerLinkPrivacy);
+      setElText('footer-link-terms', t.footerLinkTerms);
+      setElText('footer-link-legal', t.footerLinkLegal);
+
+      // Modal
+      setElText('modal-title', t.modalTitle);
+      setElText('modal-subtitle', t.modalSubtitle);
+      setElText('modal-whatsapp-text', t.modalWhatsappText);
+      setElText('modal-whatsapp-btn-text', t.modalWhatsappBtnText);
+      setElText('modal-label-name', t.modalLabelName);
+      setElText('modal-label-email', t.modalLabelEmail);
+      setElText('modal-label-phone', t.modalLabelPhone);
+      setElText('modal-label-date', t.modalLabelDate);
+      setElText('modal-btn-submit', t.modalBtnSubmit);
+
+      // Re-layout PillNav measurements
+      if (window.refreshPillNav) window.refreshPillNav();
+    }
+
+    /* FAQ ACCORDION CONTROLLER */
+    function toggleFaq(index) {
+      const ans = document.getElementById(`faq-ans-${index}`);
+      const icon = document.getElementById(`faq-icon-${index}`);
+      if (!ans || !icon) return;
+
+      const isHidden = ans.classList.contains('hidden');
+
+      // Close all other FAQs for clean single-open accordion feel
+      for (let i = 1; i <= 5; i++) {
+        const otherAns = document.getElementById(`faq-ans-${i}`);
+        const otherIcon = document.getElementById(`faq-icon-${i}`);
+        if (otherAns && otherIcon) {
+          otherAns.classList.add('hidden');
+          otherIcon.innerText = '+';
+          otherIcon.classList.remove('rotate-45', 'bg-emerald-500', 'text-white');
+          otherIcon.classList.add('bg-white/10');
+        }
+      }
+
+      if (isHidden) {
+        ans.classList.remove('hidden');
+        icon.innerText = '×';
+        icon.classList.add('rotate-45', 'bg-emerald-500', 'text-white');
+        icon.classList.remove('bg-white/10');
+      }
+    }
+
+    /* ========================================================
+       6. PILL NAV MOTION CONTROLLER (GSAP)
+       ======================================================== */
+    function initPillNav() {
+      const circleElements = document.querySelectorAll('.pill .hover-circle');
+      const tlList = [];
+
+      const layout = () => {
+        circleElements.forEach((circle, index) => {
+          const pill = circle.parentElement;
+          if (!pill) return;
+          const rect = pill.getBoundingClientRect();
+          const w = rect.width;
+          const h = rect.height;
+          if (w === 0 || h === 0) return;
+          const R = ((w * w) / 4 + h * h) / (2 * h);
+          const D = Math.ceil(2 * R) + 2;
+          const delta = Math.ceil(R - Math.sqrt(Math.max(0, R * R - (w * w) / 4))) + 1;
+          const originY = D - delta;
+
+          circle.style.width = `${D}px`;
+          circle.style.height = `${D}px`;
+          circle.style.bottom = `-${delta}px`;
+
+          gsap.set(circle, {
+            xPercent: -50,
+            scale: 0,
+            transformOrigin: `50% ${originY}px`
+          });
+
+          const label = pill.querySelector('.pill-label');
+          const white = pill.querySelector('.pill-label-hover');
+
+          if (label) gsap.set(label, { y: 0 });
+          if (white) gsap.set(white, { y: h + 12, opacity: 0 });
+
+          tlList[index]?.kill();
+          const tl = gsap.timeline({ paused: true });
+
+          tl.to(circle, { scale: 1.25, xPercent: -50, duration: 0.35, ease: 'power2.out', overwrite: 'auto' }, 0);
+
+          if (label) {
+            tl.to(label, { y: -(h + 8), duration: 0.35, ease: 'power2.out', overwrite: 'auto' }, 0);
+          }
+
+          if (white) {
+            gsap.set(white, { y: Math.ceil(h + 20), opacity: 0 });
+            tl.to(white, { y: 0, opacity: 1, duration: 0.35, ease: 'power2.out', overwrite: 'auto' }, 0);
+          }
+
+          tlList[index] = tl;
+
+          pill.onmouseenter = () => {
+            tl.tweenTo(tl.duration(), { duration: 0.3, ease: 'power2.out', overwrite: 'auto' });
+          };
+          pill.onmouseleave = () => {
+            tl.tweenTo(0, { duration: 0.2, ease: 'power2.out', overwrite: 'auto' });
+          };
+        });
+      };
+
+      window.refreshPillNav = layout;
+
+      // Logo 360 rotation on hover
+      const logoBtn = document.getElementById('pill-logo-btn');
+      const logoIcon = document.getElementById('pill-logo-icon');
+      if (logoBtn && logoIcon) {
+        logoBtn.onmouseenter = () => {
+          gsap.fromTo(logoIcon, { rotate: 0 }, { rotate: 360, duration: 0.4, ease: 'power2.out' });
+        };
+      }
+
+      // Mobile Hamburger Line animation
+      window.toggleMobileMenu = function() {
+        const drawer = document.getElementById('mobile-menu-drawer');
+        const line1 = document.getElementById('ham-line-1');
+        const line2 = document.getElementById('ham-line-2');
+        if (!drawer) return;
+        const isHidden = drawer.style.visibility !== 'visible';
+
+        if (isHidden) {
+          drawer.style.visibility = 'visible';
+          gsap.fromTo(drawer, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' });
+          if (line1 && line2) {
+            gsap.to(line1, { rotation: 45, y: 3.5, duration: 0.25 });
+            gsap.to(line2, { rotation: -45, y: -3.5, duration: 0.25 });
+          }
+        } else {
+          gsap.to(drawer, {
+            opacity: 0,
+            y: -10,
+            duration: 0.2,
+            ease: 'power2.in',
+            onComplete: () => {
+              drawer.style.visibility = 'hidden';
+            }
+          });
+          if (line1 && line2) {
+            gsap.to(line1, { rotation: 0, y: 0, duration: 0.25 });
+            gsap.to(line2, { rotation: 0, y: 0, duration: 0.25 });
+          }
+        }
+      };
+
+      // Initial load animation for PillNav
+      const navWrapper = document.getElementById('pill-nav-items-wrapper');
+      if (navWrapper) {
+        gsap.from(navWrapper, { scale: 0.95, opacity: 0, duration: 0.6, ease: 'power2.out' });
+      }
+
+      layout();
+      window.addEventListener('resize', layout);
+      if (document.fonts?.ready) {
+        document.fonts.ready.then(layout).catch(() => {});
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Initialize French as default on page load and start PillNav
+    setLanguage('FR');
+    window.addEventListener('DOMContentLoaded', initPillNav);
+    setTimeout(initPillNav, 50);
+  </script>
+</body>
+</html>
