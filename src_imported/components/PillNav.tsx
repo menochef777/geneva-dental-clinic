@@ -341,7 +341,7 @@ export const PillNav: React.FC<PillNavProps> = ({
           {onOpenConsultation && (
             <button
               onClick={onOpenConsultation}
-              className="group flex items-center gap-2 pl-4 sm:pl-5 pr-2 py-1.5 sm:py-2 rounded-full bg-white text-black font-bold text-xs sm:text-sm tracking-wide transition-all duration-300 cursor-pointer shadow-lg hover:bg-slate-100 active:scale-95"
+              className="hidden md:flex group items-center gap-2 pl-4 sm:pl-5 pr-2 py-1.5 sm:py-2 rounded-full bg-white text-black font-bold text-xs sm:text-sm tracking-wide transition-all duration-300 cursor-pointer shadow-lg hover:bg-slate-100 active:scale-95"
             >
               <span className="font-extrabold text-black">{lang === 'fr' ? 'Contacts' : 'Contacts'}</span>
               <span className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-black text-white group-hover:rotate-45 transition-transform duration-300">
