@@ -542,24 +542,15 @@
 
           <!-- 3. Right: Language Switcher + Consultation Action Button + Mobile Hamburger -->
           <div class="flex items-center gap-2 sm:gap-3">
-            <!-- Desktop Language Switcher -->
-            <div class="hidden md:flex items-center p-1 rounded-full bg-black/90 border border-white/20 shadow-lg text-xs font-bold select-none" id="lang-toggle-desktop">
-              <button onclick="setLanguage('EN')" id="btn-lang-en-desktop" class="px-2.5 py-1 rounded-full transition-all duration-300 text-neutral-400 hover:text-white font-bold cursor-pointer">
-                EN
-              </button>
-              <button onclick="setLanguage('FR')" id="btn-lang-fr-desktop" class="px-2.5 py-1 rounded-full transition-all duration-300 bg-white text-black font-extrabold shadow-sm cursor-pointer">
+            <!-- Universal Language Switcher (FR / EN) -->
+            <div class="flex items-center p-0.5 sm:p-1 rounded-full bg-black/80 backdrop-blur-md border border-white/20 shadow-lg text-[11px] sm:text-xs font-bold select-none" id="lang-toggle-container">
+              <button onclick="setLanguage('FR')" id="btn-lang-fr" class="px-2.5 py-1 rounded-full transition-all duration-300 bg-white text-black font-extrabold shadow-sm cursor-pointer" title="Passer en Français">
                 FR
               </button>
+              <button onclick="setLanguage('EN')" id="btn-lang-en" class="px-2.5 py-1 rounded-full transition-all duration-300 text-neutral-400 hover:text-white font-bold cursor-pointer" title="Switch to English">
+                EN
+              </button>
             </div>
-
-            <!-- Mobile Language Switcher Button (Directly in top bar) -->
-            <button 
-              onclick="setLanguage(currentLang === 'FR' ? 'EN' : 'FR')" 
-              id="btn-lang-mobile" 
-              class="md:hidden text-xs font-bold bg-white/20 backdrop-blur-md text-white px-3 py-1.5 rounded-full border border-white/30 hover:bg-white/30 active:scale-95 transition-all cursor-pointer select-none"
-            >
-              EN
-            </button>
 
             <!-- Contacts Action Button (High Contrast Solid White with Black Text) -->
             <button onclick="openModal()" class="group flex items-center gap-2 pl-4 sm:pl-5 pr-2 py-1.5 sm:py-2 rounded-full bg-white text-black font-bold text-xs sm:text-sm tracking-wide transition-all duration-300 cursor-pointer shadow-lg hover:bg-slate-100 active:scale-95">
@@ -1014,12 +1005,12 @@
         <!-- Split Map + Clinic Selector (Dark Glass Container) -->
         <div class="bg-zinc-950/80 backdrop-blur-xl border border-white/10 rounded-3xl p-4 sm:p-6 md:p-8 flex flex-col md:flex-row gap-6 md:gap-8 max-w-5xl mx-auto w-full shadow-2xl">
           
-          <!-- Map Column com Anti-Lag Overlay -->
-          <div onmouseleave="disableMapInteraction()" class="flex-1 relative w-full h-full min-h-[400px] md:min-h-[450px] rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl bg-zinc-900">
+          <!-- Map Column Direto com Alfinete da Clínica -->
+          <div class="flex-1 relative w-full h-full min-h-[400px] md:min-h-[450px] rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl bg-zinc-900">
             <iframe 
               id="clinic-map-frame" 
               src="https://maps.google.com/maps?q=Geneva%20Dental%20Clinic,%20Rue%20Saint-L%C3%A9ger%208,%20Gen%C3%A8ve&t=&z=15&ie=UTF8&iwloc=&output=embed" 
-              class="w-full h-full min-h-[400px] md:min-h-[450px] border-0 pointer-events-none transition-opacity duration-300" 
+              class="w-full h-full min-h-[400px] md:min-h-[450px] border-0" 
               allowfullscreen="" 
               loading="lazy" 
               title="Google Maps"
@@ -1029,17 +1020,6 @@
             <div class="absolute top-4 left-4 z-20 bg-black/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 flex items-center gap-2 pointer-events-none shadow-md">
               <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
               <span id="active-map-badge" class="text-xs font-bold text-white">Rue Saint-Léger 8</span>
-            </div>
-
-            <!-- Anti-Lag Overlay for Mobile/Desktop Scroll -->
-            <div 
-              id="map-interactive-overlay" 
-              onclick="enableMapInteraction()" 
-              class="absolute inset-0 z-10 bg-black/40 backdrop-blur-[2px] flex flex-col items-center justify-center cursor-pointer transition-all hover:bg-black/30 select-none group"
-            >
-              <button class="px-5 py-2.5 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 text-white font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2 shadow-xl group-hover:scale-105 transition-transform pointer-events-none">
-                <span id="map-overlay-btn-text">👆 Toucher pour interagir</span>
-              </button>
             </div>
           </div>
 
@@ -2147,31 +2127,19 @@
       if (!t) return;
 
       // Update Desktop & Mobile Toggle Buttons
-      const btnEnDesk = document.getElementById('btn-lang-en-desktop');
-      const btnFrDesk = document.getElementById('btn-lang-fr-desktop');
-      const btnEnMob = document.getElementById('btn-lang-en-mobile');
-      const btnFrMob = document.getElementById('btn-lang-fr-mobile');
+      // Update Language Toggle Buttons (FR / EN)
+      const btnEn = document.getElementById('btn-lang-en') || document.getElementById('btn-lang-en-desktop');
+      const btnFr = document.getElementById('btn-lang-fr') || document.getElementById('btn-lang-fr-desktop');
 
       const activeClass = "px-2.5 py-1 rounded-full transition-all duration-300 bg-white text-black font-extrabold shadow-sm cursor-pointer";
       const inactiveClass = "px-2.5 py-1 rounded-full transition-all duration-300 text-neutral-400 hover:text-white font-bold cursor-pointer";
-      const activeMobClass = "px-3 py-1 rounded-full transition-all duration-300 bg-white text-black font-extrabold shadow-sm cursor-pointer";
-      const inactiveMobClass = "px-3 py-1 rounded-full transition-all duration-300 text-neutral-400 hover:text-white font-bold cursor-pointer";
-
-      const btnLangMob = document.getElementById('btn-lang-mobile');
-      if (btnLangMob) {
-        btnLangMob.innerText = currentLang === 'FR' ? 'EN' : 'FR';
-      }
 
       if (currentLang === 'EN') {
-        if (btnEnDesk) btnEnDesk.className = activeClass;
-        if (btnFrDesk) btnFrDesk.className = inactiveClass;
-        if (btnEnMob) btnEnMob.className = activeMobClass;
-        if (btnFrMob) btnFrMob.className = inactiveMobClass;
+        if (btnEn) btnEn.className = activeClass;
+        if (btnFr) btnFr.className = inactiveClass;
       } else {
-        if (btnEnDesk) btnEnDesk.className = inactiveClass;
-        if (btnFrDesk) btnFrDesk.className = activeClass;
-        if (btnEnMob) btnEnMob.className = inactiveMobClass;
-        if (btnFrMob) btnFrMob.className = activeMobClass;
+        if (btnEn) btnEn.className = inactiveClass;
+        if (btnFr) btnFr.className = activeClass;
       }
 
       // Helper function to safely set element text or HTML

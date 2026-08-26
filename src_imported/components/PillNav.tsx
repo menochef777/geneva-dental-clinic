@@ -310,19 +310,9 @@ export const PillNav: React.FC<PillNavProps> = ({
 
         {/* Right: Language Toggle + Contacts Button + Mobile Menu */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Desktop Language Switcher */}
+          {/* Universal Clear Language Switcher (FR / EN) */}
           {setLang && (
-            <div className="hidden md:flex items-center p-1 rounded-full bg-black/90 border border-white/20 shadow-lg text-xs font-bold select-none">
-              <button
-                onClick={() => setLang('en')}
-                className={`px-2.5 py-1 rounded-full transition-all duration-300 ${
-                  lang === 'en'
-                    ? 'bg-white text-black font-extrabold shadow-sm'
-                    : 'text-neutral-400 hover:text-white font-bold'
-                } cursor-pointer`}
-              >
-                EN
-              </button>
+            <div className="flex items-center p-0.5 sm:p-1 rounded-full bg-black/80 backdrop-blur-md border border-white/20 shadow-lg text-[11px] sm:text-xs font-bold select-none">
               <button
                 onClick={() => setLang('fr')}
                 className={`px-2.5 py-1 rounded-full transition-all duration-300 ${
@@ -330,20 +320,22 @@ export const PillNav: React.FC<PillNavProps> = ({
                     ? 'bg-white text-black font-extrabold shadow-sm'
                     : 'text-neutral-400 hover:text-white font-bold'
                 } cursor-pointer`}
+                title="Passer en Français"
               >
                 FR
               </button>
+              <button
+                onClick={() => setLang('en')}
+                className={`px-2.5 py-1 rounded-full transition-all duration-300 ${
+                  lang === 'en'
+                    ? 'bg-white text-black font-extrabold shadow-sm'
+                    : 'text-neutral-400 hover:text-white font-bold'
+                } cursor-pointer`}
+                title="Switch to English"
+              >
+                EN
+              </button>
             </div>
-          )}
-
-          {/* Mobile Language Button */}
-          {setLang && (
-            <button
-              onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
-              className="md:hidden text-xs font-bold bg-white/20 backdrop-blur-md text-white px-3 py-1.5 rounded-full border border-white/30 hover:bg-white/30 active:scale-95 transition-all cursor-pointer select-none"
-            >
-              {lang === 'fr' ? 'EN' : 'FR'}
-            </button>
           )}
 
           {onOpenConsultation && (

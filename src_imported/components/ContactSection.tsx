@@ -92,7 +92,6 @@ interface ContactSectionProps {
 
 export const ContactSection: React.FC<ContactSectionProps> = ({ id = 'contact', lang = 'fr', t }) => {
   const [activeMap, setActiveMap] = useState<'saintleger' | 'prevost'>('saintleger');
-  const [mapInteractive, setMapInteractive] = useState<boolean>(false);
 
   const mapSrc =
     activeMap === 'saintleger'
@@ -114,19 +113,14 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ id = 'contact', 
       {/* Container Principal Dividido em Duas Colunas Lado a Lado (Vidro Escuro) */}
       <div className="bg-zinc-950/80 backdrop-blur-xl border border-white/10 rounded-3xl p-4 sm:p-6 md:p-8 flex flex-col md:flex-row gap-6 md:gap-8 max-w-5xl mx-auto w-full shadow-2xl">
         
-        {/* Coluna Esquerda: Mapa Interativo com Anti-Lag Overlay */}
-        <div 
-          onMouseLeave={() => setMapInteractive(false)}
-          className="flex-1 relative w-full h-full min-h-[400px] md:min-h-[450px] rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl bg-zinc-900"
-        >
+        {/* Coluna Esquerda: Mapa Interativo Direto com Alfinete */}
+        <div className="flex-1 relative w-full h-full min-h-[400px] md:min-h-[450px] rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl bg-zinc-900">
           <iframe
             key={activeMap}
             src={mapSrc}
             loading="lazy"
             title="Google Maps"
-            className={`w-full h-full min-h-[400px] md:min-h-[450px] border-0 transition-opacity duration-300 ${
-              !mapInteractive ? 'pointer-events-none' : 'pointer-events-auto'
-            }`}
+            className="w-full h-full min-h-[400px] md:min-h-[450px] border-0"
             allowFullScreen={false}
           />
 
@@ -137,18 +131,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ id = 'contact', 
               {activeMap === 'saintleger' ? 'Rue Saint-Léger 8' : 'Rue Prévost-Martin 4B'}
             </span>
           </div>
-
-          {/* Overlay Anti-Lag para Mobile/Desktop (libera scroll) */}
-          {!mapInteractive && (
-            <div
-              onClick={() => setMapInteractive(true)}
-              className="absolute inset-0 z-10 bg-black/40 backdrop-blur-[2px] flex flex-col items-center justify-center cursor-pointer transition-all hover:bg-black/30 select-none group"
-            >
-              <button className="px-5 py-2.5 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 text-white font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2 shadow-xl group-hover:scale-105 transition-transform pointer-events-none">
-                <span>👆 {lang === 'fr' ? 'Toucher pour interagir' : 'Tap to interact with map'}</span>
-              </button>
-            </div>
-          )}
         </div>
 
         {/* Coluna Direita: Seletor de Clínicas */}
