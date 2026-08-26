@@ -616,41 +616,55 @@
           </div>
         </header>
 
-        <!-- HERO CONTENT AREA (HIGH-CONVERTING FROSTED GLASS CONTAINER) -->
-        <div class="relative z-10 w-full flex justify-center pb-16 sm:pb-24 lg:pb-16 pt-2 sm:pt-4">
+        <!-- HERO VIDEO BACKGROUND & CONTENT AREA -->
+        <div class="relative w-full min-h-[92vh] md:min-h-[820px] rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden select-none bg-black flex flex-col justify-between p-4 sm:p-6 md:p-10 border border-white/10 shadow-2xl">
           
-          <!-- Frosted Glass Panel Container -->
-          <div class="bg-black/30 backdrop-blur-md border border-white/10 rounded-[2rem] p-6 md:p-10 max-w-2xl w-[95%] mx-auto mt-20 flex flex-col justify-start text-white shadow-2xl">
-            
+          <!-- Background Video -->
+          <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-0">
+            <source src="/hero-tooth.mp4" type="video/mp4" />
+          </video>
+
+          <!-- Gradient Overlay for Contrast -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/60 z-0 pointer-events-none"></div>
+
+          <!-- BLOCO SUPERIOR (TOPO) - Tagline, H1 e Subheadline com text-shadow forte -->
+          <div class="relative z-10 w-full md:max-w-md lg:max-w-lg flex flex-col items-start pt-2 md:pt-4">
             <!-- 1. Top Minimalist Badge -->
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm shadow-sm w-fit mb-4 sm:mb-6 select-none">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/40 border border-white/20 backdrop-blur-md shadow-md w-fit mb-3 sm:mb-4 select-none">
               <span class="text-xs">🇨🇭</span>
-              <span id="hero-tagline" class="text-[11px] sm:text-xs font-bold uppercase tracking-[0.22em] text-white [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+              <span id="hero-tagline" class="text-[11px] sm:text-xs font-bold uppercase tracking-[0.22em] text-white [text-shadow:_0_2px_6px_rgb(0_0_0_/_90%)]">
                 EXCELLENCE DENTAIRE SUISSE
               </span>
             </div>
 
             <!-- 2. Headline (H1) -->
-            <h1 id="hero-headline" class="text-3xl sm:text-5xl md:text-6xl font-bold text-white [text-shadow:_0_2px_4px_rgb(0_0_0_/_50%)] tracking-tight leading-[1.08] flex flex-col items-start">
+            <h1 id="hero-headline" class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white [text-shadow:_0_4px_16px_rgba(0,0,0,0.95)] tracking-tight leading-[1.08] flex flex-col items-start">
               <span>L'Art de la Précision.</span>
               <span class="mt-1 sm:mt-2">Le Sourire Que Vous Méritez.</span>
             </h1>
 
-            <!-- 3. Subheadline with text shadow -->
-            <p id="hero-subheadline" class="mt-4 sm:mt-6 text-sm sm:text-base text-white max-w-lg leading-relaxed font-normal [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+            <!-- 3. Subheadline with strong text shadow -->
+            <p id="hero-subheadline" class="mt-3 sm:mt-4 text-xs sm:text-sm md:text-base text-zinc-100 max-w-md leading-relaxed font-normal [text-shadow:_0_2px_8px_rgba(0,0,0,0.95)]">
               Dentisterie esthétique et implantologie d'excellence au cœur de Genève. Des résultats parfaits dans un environnement serein et sans douleur.
             </p>
+          </div>
 
-            <!-- 4. Social Proof: Google Maps Trust Badge (Clickable Link) -->
+          <!-- ESPAÇO VAZIO (MEIO) - Deixa o centro da tela totalmente livre para o dente 3D em rotação -->
+          <div class="my-auto min-h-[140px] sm:min-h-[180px] md:min-h-0 pointer-events-none"></div>
+
+          <!-- BLOCO INFERIOR (RODAPÉ DA HERO) - Bandeja Glassmorphism elegante -->
+          <div class="relative z-10 w-full md:max-w-md lg:max-w-lg bg-black/30 backdrop-blur-md border border-white/10 rounded-3xl p-4 sm:p-6 shadow-2xl flex flex-col gap-3.5 sm:gap-4 pb-4">
+            
+            <!-- Google Maps Trust Badge (Clickable Link) -->
             <a 
               href="https://maps.app.goo.gl/6Git9UTDtpqcmfvo8" 
               target="_blank" 
               rel="noopener noreferrer"
-              class="mt-6 sm:mt-7 p-3 sm:p-3.5 rounded-2xl bg-white/10 hover:bg-white/20 active:scale-[0.98] backdrop-blur-md border border-white/20 hover:border-white/40 inline-flex items-center gap-3 sm:gap-4 shadow-lg w-fit max-w-md select-none max-md:bg-white/5 max-md:backdrop-blur-sm transition-all duration-300 group cursor-pointer text-white"
+              class="p-2.5 sm:p-3 rounded-2xl bg-white/10 hover:bg-white/20 active:scale-[0.98] backdrop-blur-md border border-white/15 hover:border-white/40 inline-flex items-center gap-3 shadow-md w-full select-none transition-all duration-300 group cursor-pointer text-white"
             >
               <!-- Google "G" Icon -->
-              <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform">
-                <svg width="20" height="20" viewBox="0 0 24 24">
+              <div class="w-8 h-8 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform">
+                <svg width="18" height="18" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                   <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
                   <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
@@ -679,18 +693,34 @@
               </div>
             </a>
 
-            <!-- 5. Action CTAs (Primary Solid Black + Secondary Transparent with White Border) -->
-            <div class="mt-7 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
+            <!-- Action CTAs (Primary Solid Black + Secondary Transparent with White Border) -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <!-- Primary CTA: Solid Black, White Text -->
-              <button onclick="openModal()" class="inline-flex items-center justify-center gap-2 px-7 py-3.5 sm:py-4 rounded-full bg-black text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider hover:bg-neutral-900 active:scale-[0.98] transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.8)] cursor-pointer group">
+              <button onclick="openModal()" class="inline-flex items-center justify-center gap-2 px-6 py-3 sm:py-3.5 rounded-full bg-black text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider hover:bg-neutral-900 active:scale-[0.98] transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.8)] cursor-pointer group">
                 <span id="cta-primary-text">Réserver une Consultation</span>
                 <i data-lucide="arrow-up-right" class="w-4 h-4 text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
               </button>
 
               <!-- Secondary CTA: Transparent background, white border, white text -->
-              <a href="#expertise-section" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 sm:py-4 rounded-full bg-transparent border border-white text-white font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-white/10 active:scale-[0.98] transition-all duration-300 shadow-sm cursor-pointer">
+              <a href="#expertise-section" class="inline-flex items-center justify-center gap-2 px-5 py-3 sm:py-3.5 rounded-full bg-transparent border border-white text-white font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-white/10 active:scale-[0.98] transition-all duration-300 shadow-sm cursor-pointer">
                 <span id="cta-secondary-text">Découvrir Nos Résultats</span>
               </a>
+            </div>
+
+            <!-- Stats Bar in Tray -->
+            <div class="grid grid-cols-3 gap-2 pt-3 border-t border-white/10 text-center">
+              <div>
+                <div class="text-base sm:text-lg font-black text-white [text-shadow:_0_1px_4px_rgba(0,0,0,0.8)]">15+</div>
+                <div class="text-[9px] sm:text-[10px] text-zinc-300 font-semibold uppercase tracking-wider">Ans d'Expérience</div>
+              </div>
+              <div class="border-x border-white/10">
+                <div class="text-base sm:text-lg font-black text-white [text-shadow:_0_1px_4px_rgba(0,0,0,0.8)]">2500+</div>
+                <div class="text-[9px] sm:text-[10px] text-zinc-300 font-semibold uppercase tracking-wider">Patients</div>
+              </div>
+              <div>
+                <div class="text-base sm:text-lg font-black text-emerald-400 [text-shadow:_0_1px_4px_rgba(0,0,0,0.8)]">98%</div>
+                <div class="text-[9px] sm:text-[10px] text-zinc-300 font-semibold uppercase tracking-wider">Succès</div>
+              </div>
             </div>
 
           </div>
