@@ -81,7 +81,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
         </div>
 
         {/* Título Principal */}
-        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white text-center tracking-tight leading-[1.08] max-w-3xl">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white text-center tracking-tight leading-[1.08] max-w-3xl [text-shadow:_0_2px_10px_rgb(0_0_0_/_80%)]">
           A la Geneva Dental Clinic, nous aimons tous les sourires
         </h2>
 
@@ -90,7 +90,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
           {TESTIMONIALS.map((item, index) => (
             <div
               key={index}
-              className="bg-zinc-900/80 border border-zinc-800 rounded-2xl p-6 transition-all duration-500 hover:-translate-y-2 hover:bg-zinc-800 hover:border-zinc-700 hover:shadow-[0_8px_30px_rgb(255,255,255,0.04)] cursor-pointer break-inside-avoid flex flex-col justify-between"
+              className="bg-zinc-950/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 transition-all duration-500 hover:-translate-y-2 hover:border-white/30 hover:shadow-[0_8px_30px_rgb(0,0,0,0.5)] cursor-pointer break-inside-avoid flex flex-col justify-between"
             >
               {/* Topo: 5 Estrelas */}
               <div className="flex items-center gap-1">

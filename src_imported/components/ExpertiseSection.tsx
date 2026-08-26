@@ -87,10 +87,10 @@ export const ExpertiseSection: React.FC<ExpertiseSectionProps> = ({
             <span>{t?.expTag || 'OUR EXPERTISE'}</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-[1.08] [text-shadow:_0_2px_4px_rgb(0_0_0_/_60%)]">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-[1.08] [text-shadow:_0_2px_10px_rgb(0_0_0_/_80%)]">
             {lang === 'fr' ? 'La dentisterie, ' : 'Dentistry, '}
             <br className="hidden sm:inline" />
-            <span className="text-neutral-400 font-light italic">
+            <span className="text-zinc-300 font-light italic [text-shadow:_0_2px_10px_rgb(0_0_0_/_80%)]">
               {lang === 'fr' ? 'pensée avec précision.' : 'precisely considered.'}
             </span>
           </h2>
@@ -99,22 +99,22 @@ export const ExpertiseSection: React.FC<ExpertiseSectionProps> = ({
         {/* Stats Strip */}
         <div className="flex items-center gap-6 sm:gap-8">
           <div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-white [text-shadow:_0_2px_4px_rgb(0_0_0_/_60%)]">15+</div>
-            <div className="text-[11px] font-semibold text-neutral-400 uppercase tracking-wider [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+            <div className="text-2xl sm:text-3xl font-extrabold text-white [text-shadow:_0_2px_10px_rgb(0_0_0_/_80%)]">15+</div>
+            <div className="text-[11px] font-semibold text-zinc-300 uppercase tracking-wider [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
               {t?.statExp || 'Years Experience'}
             </div>
           </div>
           <div className="w-[1px] h-8 bg-white/10" />
           <div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-white [text-shadow:_0_2px_4px_rgb(0_0_0_/_60%)]">20k+</div>
-            <div className="text-[11px] font-semibold text-neutral-400 uppercase tracking-wider [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+            <div className="text-2xl sm:text-3xl font-extrabold text-white [text-shadow:_0_2px_10px_rgb(0_0_0_/_80%)]">20k+</div>
+            <div className="text-[11px] font-semibold text-zinc-300 uppercase tracking-wider [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
               {t?.statPatients || 'Patients Treated'}
             </div>
           </div>
           <div className="w-[1px] h-8 bg-white/10" />
           <div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-emerald-400 [text-shadow:_0_2px_4px_rgb(0_0_0_/_60%)]">99%</div>
-            <div className="text-[11px] font-semibold text-neutral-400 uppercase tracking-wider [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+            <div className="text-2xl sm:text-3xl font-extrabold text-emerald-400 [text-shadow:_0_2px_10px_rgb(0_0_0_/_80%)]">99%</div>
+            <div className="text-[11px] font-semibold text-zinc-300 uppercase tracking-wider [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
               {t?.statSuccess || 'Success Rate'}
             </div>
           </div>
@@ -126,7 +126,7 @@ export const ExpertiseSection: React.FC<ExpertiseSectionProps> = ({
         {cards.map((card, idx) => (
           <div
             key={idx}
-            className="sticky top-24 sm:top-28 w-full max-w-2xl mx-auto rounded-3xl bg-black/20 backdrop-blur-sm border border-white/10 p-5 sm:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.6)] transform-gpu transition-all duration-300 overflow-hidden"
+            className="sticky top-24 sm:top-28 w-full max-w-2xl mx-auto rounded-3xl bg-zinc-950/80 backdrop-blur-xl border border-white/10 p-5 sm:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.6)] transform-gpu transition-all duration-300 overflow-hidden"
           >
             <div className="relative w-full h-48 sm:h-64 rounded-2xl overflow-hidden mb-5 border border-white/15">
               <img src={card.img} alt={card.title} className="w-full h-full object-cover filter brightness-95" />
