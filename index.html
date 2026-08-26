@@ -641,10 +641,15 @@
               Dentisterie esthétique et implantologie d'excellence au cœur de Genève. Des résultats parfaits dans un environnement serein et sans douleur.
             </p>
 
-            <!-- 4. Social Proof: Google Maps Trust Badge (Glassmorphism) -->
-            <div class="mt-6 sm:mt-7 p-3 sm:p-3.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 inline-flex items-center gap-3 sm:gap-4 shadow-lg w-fit max-w-md select-none max-md:bg-white/5 max-md:backdrop-blur-sm">
+            <!-- 4. Social Proof: Google Maps Trust Badge (Glassmorphism Clickable Link) -->
+            <a 
+              href="https://maps.app.goo.gl/6Git9UTDtpqcmfvo8" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="mt-6 sm:mt-7 p-3 sm:p-3.5 rounded-2xl bg-white/10 hover:bg-white/20 active:scale-[0.98] backdrop-blur-md border border-white/20 hover:border-white/40 inline-flex items-center gap-3 sm:gap-4 shadow-lg w-fit max-w-md select-none max-md:bg-white/5 max-md:backdrop-blur-sm transition-all duration-300 group cursor-pointer"
+            >
               <!-- Google "G" Icon -->
-              <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-sm">
+              <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform">
                 <svg width="20" height="20" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                   <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
@@ -667,7 +672,12 @@
                 </div>
                 <span id="badge-reviews-sub" class="text-[10px] sm:text-[11px] text-silver-400 font-medium mt-0.5 [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">Basé sur des avis vérifiés de patients</span>
               </div>
-            </div>
+
+              <!-- Arrow Icon -->
+              <div class="ml-auto pl-1 text-white/70 group-hover:text-white group-hover:translate-x-0.5 transition-all">
+                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+              </div>
+            </a>
 
             <!-- 5. Action CTAs (Primary Solid Black + Secondary Glassmorphism) -->
             <div class="mt-7 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
