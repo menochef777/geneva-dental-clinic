@@ -91,7 +91,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
 
         {/* Google Maps Trust Badge (Clickable Link to Google Reviews) */}
         <a
-          href="https://maps.app.goo.gl/CvPqHyjYZVbZUKvR8"
+          href="https://maps.app.goo.gl/cArJX3bymSeJjG998"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition-colors mt-6 mb-8 group cursor-pointer shadow-lg select-none"
