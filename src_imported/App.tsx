@@ -69,48 +69,48 @@ export default function App() {
   const t = TRANSLATIONS[lang];
 
   return (
-    <main className="min-h-screen bg-black text-white flex flex-col items-center justify-start p-2 sm:p-4 md:p-6 lg:p-8 selection:bg-white selection:text-black space-y-12">
-      {/* 1st Section: Hero Banner */}
-      <div className="w-full max-w-[1280px]">
-        <Banner
-          lang={lang}
-          setLang={setLang}
-          t={t}
-          onOpenConsultation={() => setIsModalOpen(true)}
-          onSelectNav={(item) => {
-            setActiveTab(item);
-            if (item === 'Contacts') {
-              const el = document.getElementById('contact-section');
-              if (el) {
-                el.scrollIntoView({ behavior: 'smooth' });
-              } else {
-                setIsModalOpen(true);
-              }
-            } else if (item === 'Reviews') {
-              const el = document.getElementById('testimonials-section');
-              if (el) {
-                el.scrollIntoView({ behavior: 'smooth' });
-              }
-            } else if (item === 'About' || item === 'Results') {
-              const el = document.getElementById('expertise-section');
-              if (el) {
-                el.scrollIntoView({ behavior: 'smooth' });
-              }
-            } else if (item === 'Consultation') {
+    <div className="min-h-screen bg-black text-white selection:bg-white selection:text-black">
+      {/* 1st Section: Hero Banner (100% Full-Screen Edge-to-Edge) */}
+      <Banner
+        lang={lang}
+        setLang={setLang}
+        t={t}
+        onOpenConsultation={() => setIsModalOpen(true)}
+        onSelectNav={(item) => {
+          setActiveTab(item);
+          if (item === 'Contacts') {
+            const el = document.getElementById('contact-section');
+            if (el) {
+              el.scrollIntoView({ behavior: 'smooth' });
+            } else {
               setIsModalOpen(true);
             }
-          }}
-        />
-      </div>
+          } else if (item === 'Reviews') {
+            const el = document.getElementById('testimonials-section');
+            if (el) {
+              el.scrollIntoView({ behavior: 'smooth' });
+            }
+          } else if (item === 'About' || item === 'Results') {
+            const el = document.getElementById('expertise-section');
+            if (el) {
+              el.scrollIntoView({ behavior: 'smooth' });
+            }
+          } else if (item === 'Consultation') {
+            setIsModalOpen(true);
+          }
+        }}
+      />
 
-      {/* 2nd Section: OUR EXPERTISE */}
-      <div className="w-full max-w-[1280px]">
-        <ExpertiseSection
-          lang={lang}
-          t={t}
-          onOpenConsultation={() => setIsModalOpen(true)}
-        />
-      </div>
+      {/* Main Scrollable Content Container (Sections 2 to 6) */}
+      <main className="relative z-10 flex flex-col items-center justify-start p-2 sm:p-4 md:p-6 lg:p-8 space-y-12 sm:space-y-16">
+        {/* 2nd Section: OUR EXPERTISE */}
+        <div className="w-full max-w-[1280px]">
+          <ExpertiseSection
+            lang={lang}
+            t={t}
+            onOpenConsultation={() => setIsModalOpen(true)}
+          />
+        </div>
 
       {/* 3rd Section: GET IN TOUCH / LOCATIONS */}
       <div className="w-full max-w-[1280px]">
@@ -149,5 +149,6 @@ export default function App() {
         onClose={() => setIsModalOpen(false)}
       />
     </main>
-  );
+  </div>
+);
 }
