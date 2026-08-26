@@ -49,27 +49,27 @@ export const Banner: React.FC<BannerProps> = ({
       </div>
 
       {/* HERO CONTENT AREA */}
-      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center pb-16 sm:pb-24 lg:pb-16 pt-2 sm:pt-4">
+      <div className="relative z-10 w-full flex justify-center pb-16 sm:pb-24 lg:pb-16 pt-2 sm:pt-4">
         
-        {/* Left / Main Typography Column in Light Smoke Glass Container */}
-        <div className="lg:col-span-8 flex flex-col justify-start z-20 bg-black/15 backdrop-blur-[4px] border border-white/10 rounded-3xl p-6 md:p-10 shadow-2xl">
+        {/* Frosted Glass Panel Container */}
+        <div className="bg-black/30 backdrop-blur-md border border-white/10 rounded-[2rem] p-6 md:p-10 max-w-2xl w-[95%] mx-auto mt-20 flex flex-col justify-start text-white shadow-2xl">
           
           {/* Top Minimalist Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/15 backdrop-blur-sm shadow-sm w-fit mb-4 sm:mb-6 select-none">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm shadow-sm w-fit mb-4 sm:mb-6 select-none">
             <span className="text-xs">🇨🇭</span>
-            <span className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.22em] text-neutral-300 [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+            <span className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.22em] text-white [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
               {t?.heroTagline || 'SWISS DENTAL EXCELLENCE'}
             </span>
           </div>
 
-          {/* Headline H1 with Soft Text Shadow matching Section 4 */}
-          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.08] flex flex-col items-start font-sans [text-shadow:_0_2px_4px_rgb(0_0_0_/_60%)]">
+          {/* Headline H1 with Text Shadow */}
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight leading-[1.08] flex flex-col items-start font-sans [text-shadow:_0_2px_4px_rgb(0_0_0_/_50%)]">
             <span>{lang === 'fr' ? "L'Art de la Précision." : 'The Art of Precision.'}</span>
-            <span className="text-neutral-200 mt-1 sm:mt-2">{lang === 'fr' ? 'Le Sourire Que Vous Méritez.' : 'The Smile You Deserve.'}</span>
+            <span className="mt-1 sm:mt-2">{lang === 'fr' ? 'Le Sourire Que Vous Méritez.' : 'The Smile You Deserve.'}</span>
           </h1>
 
-          {/* Subheadline with Soft Text Shadow */}
-          <p className="mt-4 sm:mt-6 text-sm sm:text-base text-neutral-300 max-w-lg leading-relaxed font-normal [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+          {/* Subheadline with Text Shadow */}
+          <p className="mt-4 sm:mt-6 text-sm sm:text-base text-white max-w-lg leading-relaxed font-normal [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
             {t?.heroSub || 'World-class aesthetic dentistry and implantology in the heart of Geneva. Experience flawless results in a completely stress-free, pain-free environment.'}
           </p>
 
@@ -78,7 +78,7 @@ export const Banner: React.FC<BannerProps> = ({
             href="https://maps.app.goo.gl/6Git9UTDtpqcmfvo8"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-6 sm:mt-7 p-3 sm:p-3.5 rounded-2xl bg-white/10 hover:bg-white/20 active:scale-[0.98] backdrop-blur-md border border-white/20 hover:border-white/40 inline-flex items-center gap-3 sm:gap-4 shadow-lg w-fit max-w-md select-none transition-all duration-300 group cursor-pointer"
+            className="mt-6 sm:mt-7 p-3 sm:p-3.5 rounded-2xl bg-white/10 hover:bg-white/20 active:scale-[0.98] backdrop-blur-md border border-white/20 hover:border-white/40 inline-flex items-center gap-3 sm:gap-4 shadow-lg w-fit max-w-md select-none transition-all duration-300 group cursor-pointer text-white"
           >
             <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform">
               <svg width="20" height="20" viewBox="0 0 24 24">
@@ -102,9 +102,14 @@ export const Banner: React.FC<BannerProps> = ({
                   {t?.topRated || 'Top Rated on Google Maps'}
                 </span>
               </div>
-              <span className="text-[10px] sm:text-[11px] text-neutral-400 font-medium mt-0.5 [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
+              <span className="text-[10px] sm:text-[11px] text-white/80 font-medium mt-0.5 [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
                 {t?.reviewsSub || 'Based on real patient reviews'}
               </span>
+            </div>
+
+            {/* Arrow Icon */}
+            <div className="ml-auto pl-1 text-white/70 group-hover:text-white group-hover:translate-x-0.5 transition-all">
+              <ArrowUpRight className="w-3.5 h-3.5" />
             </div>
           </a>
 
@@ -120,35 +125,15 @@ export const Banner: React.FC<BannerProps> = ({
 
             <a
               href="#expertise-section"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 sm:py-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-white/20 active:scale-[0.98] transition-all duration-300 shadow-sm cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 sm:py-4 rounded-full bg-transparent border border-white text-white font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-white/10 active:scale-[0.98] transition-all duration-300 shadow-sm cursor-pointer"
             >
               <span>{t?.resultsBtn || 'View Our Results'}</span>
             </a>
           </div>
 
         </div>
-
-        {/* Right Column: 15+ Years Excellence Card */}
-        <div className="lg:col-span-4 flex justify-center lg:justify-end z-10 w-full max-md:hidden">
-          <div className="w-full max-w-sm bg-black/20 border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-7 flex flex-col justify-between backdrop-blur-md shadow-xl">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-neutral-400 [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
-                {t?.qualityCare || 'Quality Care'}
-              </span>
-              <span className="text-[11px] sm:text-xs font-extrabold px-2.5 py-0.5 sm:py-1 rounded-full bg-neutral-200 text-black shadow-sm">
-                Geneva
-              </span>
-            </div>
-            <div className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-none mb-2 [text-shadow:_0_2px_4px_rgb(0_0_0_/_60%)]">
-              {t?.yearsExcellence || '15+ Years'}
-            </div>
-            <p className="text-xs sm:text-sm font-medium text-neutral-300 leading-relaxed [text-shadow:_0_1px_2px_rgb(0_0_0_/_80%)]">
-              {t?.qualityCareDesc || 'Of excellence in dental surgery, implantology, and aesthetic dentistry in Geneva.'}
-            </p>
-          </div>
-        </div>
-
       </div>
+
     </div>
   );
 };
