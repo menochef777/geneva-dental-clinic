@@ -1249,7 +1249,7 @@
           <!-- Left Column: Clinic Tour Video -->
           <div class="lg:col-span-5 relative rounded-3xl overflow-hidden bg-zinc-900 border border-white/20 shadow-2xl min-h-[380px] sm:min-h-[460px] flex flex-col justify-end group">
             <video 
-              src="images/Filming_clinic_room_tour_202608251740.mp4" 
+              src="/images/Filming_clinic_room_tour_202608251740.mp4" 
               autoplay 
               loop 
               muted 
@@ -1601,7 +1601,7 @@
 
     function getFrameUrl(index) {
       const frameNum = String(index + 1).padStart(3, '0');
-      return `images/ezgif-frame-${frameNum}.jpg`;
+      return `/images/ezgif-frame-${frameNum}.jpg`;
     }
 
     function resizeCanvas() {
