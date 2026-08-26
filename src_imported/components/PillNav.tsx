@@ -310,6 +310,7 @@ export const PillNav: React.FC<PillNavProps> = ({
 
         {/* Right: Language Toggle + Contacts Button + Mobile Menu */}
         <div className="flex items-center gap-2 sm:gap-3">
+          {/* Desktop Language Switcher */}
           {setLang && (
             <div className="hidden md:flex items-center p-1 rounded-full bg-black/90 border border-white/20 shadow-lg text-xs font-bold select-none">
               <button
@@ -335,12 +336,22 @@ export const PillNav: React.FC<PillNavProps> = ({
             </div>
           )}
 
+          {/* Mobile Language Button */}
+          {setLang && (
+            <button
+              onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
+              className="md:hidden text-xs font-bold bg-white/20 backdrop-blur-md text-white px-3 py-1.5 rounded-full border border-white/30 hover:bg-white/30 active:scale-95 transition-all cursor-pointer select-none"
+            >
+              {lang === 'fr' ? 'EN' : 'FR'}
+            </button>
+          )}
+
           {onOpenConsultation && (
             <button
               onClick={onOpenConsultation}
               className="group flex items-center gap-2 pl-4 sm:pl-5 pr-2 py-1.5 sm:py-2 rounded-full bg-white text-black font-bold text-xs sm:text-sm tracking-wide transition-all duration-300 cursor-pointer shadow-lg hover:bg-slate-100 active:scale-95"
             >
-              <span className="font-extrabold">{lang === 'fr' ? 'Contacts' : 'Contacts'}</span>
+              <span className="font-extrabold text-black">{lang === 'fr' ? 'Contacts' : 'Contacts'}</span>
               <span className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-black text-white group-hover:rotate-45 transition-transform duration-300">
                 <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" strokeWidth={2.5} />
               </span>
@@ -361,36 +372,6 @@ export const PillNav: React.FC<PillNavProps> = ({
 
       {/* Mobile Popover Drawer */}
       <div className="mobile-menu-popover mobile-only" ref={mobileMenuRef} style={cssVars}>
-        {setLang && (
-          <div className="flex items-center justify-between p-3 mb-2 border-b border-white/10">
-            <span className="text-xs uppercase font-bold tracking-wider text-slate-400">Language / Langue</span>
-            <div className="flex items-center p-1 rounded-full bg-black/60 border border-white/15 text-xs font-bold select-none">
-              <button
-                onClick={() => {
-                  setLang('en');
-                  setIsMobileMenuOpen(false);
-                }}
-                className={`px-3 py-1 rounded-full transition-all duration-300 ${
-                  lang === 'en' ? 'bg-white text-black font-extrabold shadow-sm' : 'text-neutral-400 hover:text-white font-bold'
-                } cursor-pointer`}
-              >
-                EN
-              </button>
-              <button
-                onClick={() => {
-                  setLang('fr');
-                  setIsMobileMenuOpen(false);
-                }}
-                className={`px-3 py-1 rounded-full transition-all duration-300 ${
-                  lang === 'fr' ? 'bg-white text-black font-extrabold shadow-sm' : 'text-neutral-400 hover:text-white font-bold'
-                } cursor-pointer`}
-              >
-                FR
-              </button>
-            </div>
-          </div>
-        )}
-
         <ul className="mobile-menu-list">
           {items.map((item, i) => (
             <li key={item.href || `mobile-item-${i}`}>
