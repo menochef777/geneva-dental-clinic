@@ -50,7 +50,7 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({
             </div>
 
             {/* Titles */}
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-950 tracking-tight leading-[1.05]">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-950 tracking-tight leading-tight">
               {isFr ? "L'Excellence Dentaire au Cœur de Genève" : 'Dental Excellence in the Heart of Geneva'}
             </h2>
             <p className="text-sm sm:text-base font-bold text-slate-600 mt-1 uppercase tracking-wider">
@@ -64,30 +64,22 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({
                 : 'Discover a space designed for your well-being. At Geneva Dental Clinic, we combine cutting-edge technology with a deeply human approach. Specialized in aesthetics and implantology, we offer a soothing environment, ideal for overcoming dental anxiety with protocols guaranteeing pain-free care.'}
             </p>
 
-            {/* Benefits List */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6 pt-6 border-t border-slate-200/80">
-              <div className="flex items-center gap-2.5 text-xs sm:text-sm font-bold text-slate-900">
-                <div className="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-sm">
-                  <Check className="w-3.5 h-3.5 stroke-[3]" />
-                </div>
+            {/* Benefits List (Mobile: flex-col gap-3 / Desktop: grid-cols-2 gap-4) */}
+            <div className="flex flex-col sm:grid sm:grid-cols-2 gap-3 sm:gap-4 mt-6 pt-6 border-t border-slate-200/80">
+              <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-zinc-800">
+                <Check className="w-4 h-4 text-green-500 shrink-0 stroke-[2.5]" />
                 <span>{isFr ? 'Technologie de Pointe (Scanner 3D)' : 'Cutting-Edge Technology (3D Scanner)'}</span>
               </div>
-              <div className="flex items-center gap-2.5 text-xs sm:text-sm font-bold text-slate-900">
-                <div className="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-sm">
-                  <Check className="w-3.5 h-3.5 stroke-[3]" />
-                </div>
+              <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-zinc-800">
+                <Check className="w-4 h-4 text-green-500 shrink-0 stroke-[2.5]" />
                 <span>{isFr ? 'Cadre Relaxant & Premium' : 'Relaxing & Premium Setting'}</span>
               </div>
-              <div className="flex items-center gap-2.5 text-xs sm:text-sm font-bold text-slate-900">
-                <div className="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-sm">
-                  <Check className="w-3.5 h-3.5 stroke-[3]" />
-                </div>
+              <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-zinc-800">
+                <Check className="w-4 h-4 text-green-500 shrink-0 stroke-[2.5]" />
                 <span>{isFr ? 'Approche Douce (Zéro Phobie)' : 'Gentle Approach (Zero Phobia)'}</span>
               </div>
-              <div className="flex items-center gap-2.5 text-xs sm:text-sm font-bold text-slate-900">
-                <div className="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-sm">
-                  <Check className="w-3.5 h-3.5 stroke-[3]" />
-                </div>
+              <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-zinc-800">
+                <Check className="w-4 h-4 text-green-500 shrink-0 stroke-[2.5]" />
                 <span>{isFr ? "+15 Ans d'Expertise Suisse" : '15+ Years of Swiss Expertise'}</span>
               </div>
             </div>
