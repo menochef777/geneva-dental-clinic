@@ -1501,9 +1501,9 @@
       <!-- Modal Body -->
       <div id="modal-form-view">
         <div class="mb-6">
-          <span class="text-xs uppercase font-bold tracking-widest text-silver-400">Geneva Dental Clinic</span>
-          <h2 id="modal-title" class="text-2xl sm:text-3xl font-extrabold text-silver-gradient mt-1">Book Your Consultation</h2>
-          <p id="modal-subtitle" class="text-sm text-silver-300 mt-1">Experience precision dental restoration tailored for your confident smile.</p>
+          <span class="text-xs uppercase font-bold tracking-widest text-silver-400">GENEVA DENTAL CLINIC</span>
+          <h2 id="modal-title" class="text-2xl sm:text-3xl font-extrabold text-silver-gradient mt-1">Disponibilités & Consultation</h2>
+          <p id="modal-subtitle" class="text-sm text-silver-300 mt-1">Remplissez vos coordonnées pour vérifier les créneaux et horaires disponibles.</p>
         </div>
 
         <!-- WhatsApp Quick Link -->
@@ -1516,14 +1516,14 @@
             </div>
             <div>
               <div class="text-xs font-bold text-white flex items-center gap-1.5">
-                <span id="modal-whatsapp-text">Chat on WhatsApp</span>
+                <span id="modal-whatsapp-text">WhatsApp Direct</span>
                 <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
               </div>
               <div class="text-[11px] text-emerald-400 font-mono">+41 78 850 93 93</div>
             </div>
           </div>
           <div class="text-xs font-semibold text-silver-300 group-hover:text-white flex items-center gap-1">
-            <span id="modal-whatsapp-btn-text">Open Chat</span>
+            <span id="modal-whatsapp-btn-text">Ouvrir Chat</span>
             <span class="text-emerald-400 font-bold">→</span>
           </div>
         </a>
@@ -1531,28 +1531,28 @@
         <!-- Form -->
         <form onsubmit="handleFormSubmit(event)" class="space-y-4">
           <div>
-            <label id="modal-label-name" class="block text-xs font-semibold text-silver-300 mb-1.5 uppercase tracking-wider">Full Name</label>
-            <input type="text" id="form-name" required placeholder="Jane Doe" class="w-full bg-slate-900/50 border border-silver-300/20 rounded-xl px-4 py-2.5 text-sm text-silver-100 placeholder-silver-400/50 focus:outline-none focus:border-white transition-colors">
+            <label id="modal-label-name" class="block text-xs font-semibold text-silver-300 mb-1.5 uppercase tracking-wider">Nom & Prénom <span class="text-red-400">*</span></label>
+            <input type="text" id="form-name" required placeholder="Ex: Jean Dupont" class="w-full bg-slate-900/50 border border-silver-300/20 rounded-xl px-4 py-2.5 text-sm text-silver-100 placeholder-silver-400/50 focus:outline-none focus:border-white transition-colors">
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label id="modal-label-email" class="block text-xs font-semibold text-silver-300 mb-1.5 uppercase tracking-wider">Email Address</label>
-              <input type="email" required placeholder="jane@example.com" class="w-full bg-slate-900/50 border border-silver-300/20 rounded-xl px-4 py-2.5 text-sm text-silver-100 placeholder-silver-400/50 focus:outline-none focus:border-white transition-colors">
+              <label id="modal-label-email" class="block text-xs font-semibold text-silver-300 mb-1.5 uppercase tracking-wider">Adresse Email <span class="text-red-400">*</span></label>
+              <input type="email" id="form-email" required placeholder="nom@exemple.com" class="w-full bg-slate-900/50 border border-silver-300/20 rounded-xl px-4 py-2.5 text-sm text-silver-100 placeholder-silver-400/50 focus:outline-none focus:border-white transition-colors">
             </div>
             <div>
-              <label id="modal-label-phone" class="block text-xs font-semibold text-silver-300 mb-1.5 uppercase tracking-wider">Phone Number</label>
-              <input type="tel" placeholder="+41 78 850 93 93" class="w-full bg-slate-900/50 border border-silver-300/20 rounded-xl px-4 py-2.5 text-sm text-silver-100 placeholder-silver-400/50 focus:outline-none focus:border-white transition-colors">
+              <label id="modal-label-phone" class="block text-xs font-semibold text-silver-300 mb-1.5 uppercase tracking-wider">Numéro de Téléphone <span class="text-red-400">*</span></label>
+              <input type="tel" id="form-phone" required placeholder="+41 78 850 93 93" class="w-full bg-slate-900/50 border border-silver-300/20 rounded-xl px-4 py-2.5 text-sm text-silver-100 placeholder-silver-400/50 focus:outline-none focus:border-white transition-colors">
             </div>
           </div>
 
           <div>
-            <label id="modal-label-date" class="block text-xs font-semibold text-silver-300 mb-1.5 uppercase tracking-wider">Preferred Date</label>
-            <input type="date" class="w-full bg-slate-900/50 border border-silver-300/20 rounded-xl px-4 py-2.5 text-sm text-silver-100 placeholder-silver-400/50 focus:outline-none focus:border-white transition-colors">
+            <label id="modal-label-message" class="block text-xs font-semibold text-silver-300 mb-1.5 uppercase tracking-wider">Votre besoin ou problème dentaire</label>
+            <textarea id="form-message" rows="3" placeholder="Décrivez ce que vous souhaitez faire (ex: blanchiment, facettes, implant, bilan, douleur...)" class="w-full bg-slate-900/50 border border-silver-300/20 rounded-xl px-4 py-2.5 text-sm text-silver-100 placeholder-silver-400/50 focus:outline-none focus:border-white transition-colors resize-none"></textarea>
           </div>
 
-          <button type="submit" class="w-full mt-2 py-3 px-6 rounded-full silver-button font-bold text-sm tracking-wide cursor-pointer shadow-lg">
-            <span id="modal-btn-submit" class="text-slate-900 font-extrabold">Confirm Consultation Request</span>
+          <button type="submit" class="w-full mt-2 py-3.5 px-6 rounded-full silver-button font-bold text-sm tracking-wide cursor-pointer shadow-lg">
+            <span id="modal-btn-submit" class="text-slate-900 font-extrabold uppercase tracking-wider">Vérifier les disponibilités & horaires</span>
           </button>
         </form>
       </div>
@@ -1562,12 +1562,12 @@
         <div class="mx-auto flex items-center justify-center w-16 h-16 rounded-full bg-silver-200 text-slate-900">
           <i data-lucide="check-circle-2" class="w-8 h-8"></i>
         </div>
-        <h3 class="text-2xl font-bold text-silver-gradient">Consultation Requested!</h3>
+        <h3 id="modal-success-title" class="text-2xl font-bold text-silver-gradient">Demande Transmise !</h3>
         <p class="text-sm text-silver-300 max-w-sm mx-auto" id="modal-success-text">
-          Thank you! Our Geneva Clinic team will contact you shortly to confirm your appointment.
+          Merci ! Notre équipe va vérifier les disponibilités et vous contacter rapidement avec les créneaux disponibles.
         </p>
-        <button onclick="closeModal()" class="mt-4 px-6 py-2.5 rounded-full silver-button text-slate-900 font-semibold text-sm cursor-pointer">
-          Done
+        <button onclick="closeModal()" class="mt-4 px-8 py-2.5 rounded-full silver-button text-slate-900 font-semibold text-sm cursor-pointer">
+          Fermer
         </button>
       </div>
 
@@ -1806,7 +1806,25 @@
     function handleFormSubmit(e) {
       e.preventDefault();
       const name = document.getElementById('form-name').value;
-      document.getElementById('modal-success-text').innerText = `Thank you, ${name || 'there'}! Our Geneva Clinic team will contact you shortly to confirm your appointment.`;
+      const email = document.getElementById('form-email').value;
+      const phone = document.getElementById('form-phone').value;
+      const message = document.getElementById('form-message') ? document.getElementById('form-message').value : '';
+
+      const isFr = currentLang === 'FR';
+      const greeting = isFr 
+        ? 'Bonjour Geneva Dental Clinic,\nJe souhaite vérifier les disponibilités et horaires pour une consultation.'
+        : 'Hello Geneva Dental Clinic,\nI would like to check availability and schedule for a consultation.';
+
+      const messageBody = encodeURIComponent(
+        `${greeting}\n\n👤 *${isFr ? 'Nom & Prénom' : 'Full Name'}:* ${name}\n📧 *Email:* ${email}\n📞 *${isFr ? 'Téléphone' : 'Phone'}:* ${phone}\n💬 *${isFr ? 'Motif / Message' : 'Reason / Message'}:* ${message || (isFr ? 'Non spécifié' : 'Not specified')}`
+      );
+
+      window.open(`https://api.whatsapp.com/send?phone=+41788509393&text=${messageBody}`, '_blank');
+
+      document.getElementById('modal-success-text').innerText = isFr
+        ? `Merci ${name || ''} ! Notre équipe va vérifier les disponibilités et vous contacter rapidement avec les créneaux disponibles.`
+        : `Thank you, ${name || ''}! Our team will check available times and contact you promptly.`;
+
       formView.classList.add('hidden');
       successView.classList.remove('hidden');
       lucide.createIcons();
@@ -1951,15 +1969,15 @@
         footerLinkLegal: 'Legal Notice',
 
         // Modal
-        modalTitle: 'Book Your Consultation',
-        modalSubtitle: 'Experience precision dental restoration tailored for your confident smile.',
-        modalWhatsappText: 'Chat on WhatsApp',
+        modalTitle: 'Availability & Consultation',
+        modalSubtitle: 'Fill in your details to check our available dates and consultation times.',
+        modalWhatsappText: 'Direct WhatsApp',
         modalWhatsappBtnText: 'Open Chat',
-        modalLabelName: 'Full Name',
-        modalLabelEmail: 'Email Address',
-        modalLabelPhone: 'Phone Number',
-        modalLabelDate: 'Preferred Date',
-        modalBtnSubmit: 'Confirm Consultation Request'
+        modalLabelName: 'Full Name (First & Last) *',
+        modalLabelEmail: 'Email Address *',
+        modalLabelPhone: 'Phone Number *',
+        modalLabelMessage: 'Your concern or reason for visit',
+        modalBtnSubmit: 'Check Available Dates & Times'
       },
       FR: {
         navAbout: 'À Propos',
@@ -2094,15 +2112,15 @@
         footerLinkLegal: 'Mentions Légales',
 
         // Modal
-        modalTitle: 'Réserver une Consultation',
-        modalSubtitle: 'Découvrez des soins dentaires de haute précision pour sublimer votre sourire.',
-        modalWhatsappText: 'Discuter sur WhatsApp',
+        modalTitle: 'Disponibilités & Consultation',
+        modalSubtitle: 'Remplissez vos coordonnées pour vérifier les créneaux et horaires disponibles.',
+        modalWhatsappText: 'WhatsApp Direct',
         modalWhatsappBtnText: 'Ouvrir Chat',
-        modalLabelName: 'Nom Complet',
-        modalLabelEmail: 'Adresse Email',
-        modalLabelPhone: 'Numéro de Téléphone',
-        modalLabelDate: 'Date Souhaitée',
-        modalBtnSubmit: 'Confirmer la Demande de Consultation'
+        modalLabelName: 'Nom & Prénom *',
+        modalLabelEmail: 'Adresse Email *',
+        modalLabelPhone: 'Numéro de Téléphone *',
+        modalLabelMessage: 'Votre besoin ou problème dentaire',
+        modalBtnSubmit: 'Vérifier les disponibilités & horaires'
       }
     };
 
@@ -2286,7 +2304,7 @@
       setElText('modal-label-name', t.modalLabelName);
       setElText('modal-label-email', t.modalLabelEmail);
       setElText('modal-label-phone', t.modalLabelPhone);
-      setElText('modal-label-date', t.modalLabelDate);
+      setElText('modal-label-message', t.modalLabelMessage);
       setElText('modal-btn-submit', t.modalBtnSubmit);
 
       // Re-layout PillNav measurements

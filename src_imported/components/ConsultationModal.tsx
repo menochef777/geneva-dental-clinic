@@ -1,23 +1,26 @@
 import React, { useState } from 'react';
-import { X, CheckCircle2, Calendar, Phone, Mail, User } from 'lucide-react';
+import { X, CheckCircle2, MessageSquare, Phone, Mail, User, ArrowUpRight } from 'lucide-react';
 
 interface ConsultationModalProps {
   isOpen: boolean;
   onClose: () => void;
+  lang?: 'en' | 'fr';
+  t?: Record<string, string>;
 }
 
 export const ConsultationModal: React.FC<ConsultationModalProps> = ({
   isOpen,
   onClose,
+  lang = 'fr',
+  t,
 }) => {
+  const isFr = lang === 'fr';
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    date: '',
-    service: 'Comprehensive Smile Restoration',
-    notes: '',
+    message: '',
   });
 
   if (!isOpen) return null;
@@ -25,9 +28,17 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
-    setTimeout(() => {
-      // reset after delay
-    }, 4000);
+
+    const greeting = isFr
+      ? 'Bonjour Geneva Dental Clinic,\nJe souhaite vérifier les disponibilités et horaires pour une consultation.'
+      : 'Hello Geneva Dental Clinic,\nI would like to check availability and schedule for a consultation.';
+
+    const messageBody = encodeURIComponent(
+      `${greeting}\n\n👤 *${isFr ? 'Nom & Prénom' : 'Full Name'}:* ${formData.name}\n📧 *Email:* ${formData.email}\n📞 *${isFr ? 'Téléphone' : 'Phone'}:* ${formData.phone}\n💬 *${isFr ? 'Motif / Message' : 'Reason / Message'}:* ${formData.message || (isFr ? 'Non spécifié' : 'Not specified')}`
+    );
+
+    // Optional direct WhatsApp link redirect in new tab
+    window.open(`https://api.whatsapp.com/send?phone=+41788509393&text=${messageBody}`, '_blank');
   };
 
   return (
@@ -37,7 +48,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-lg bg-neutral-950 border border-white/20 rounded-3xl p-6 sm:p-8 shadow-2xl text-white font-['Montserrat']"
+        className="relative w-full max-w-lg bg-neutral-950 border border-white/20 rounded-3xl p-6 sm:p-8 shadow-2xl text-white font-sans max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
@@ -51,35 +62,41 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
         </button>
 
         {submitted ? (
-          <div className="py-8 text-center space-y-4 font-['Montserrat']">
+          <div className="py-8 text-center space-y-4 font-sans">
             <div className="mx-auto flex items-center justify-center w-16 h-16 rounded-full bg-white text-black">
               <CheckCircle2 className="w-8 h-8" />
             </div>
-            <h3 className="text-2xl font-bold text-white">Consultation Requested!</h3>
-            <p className="text-sm text-white/80 max-w-sm mx-auto">
-              Thank you, {formData.name || 'there'}! Our Geneva Clinic team will contact you shortly to confirm your appointment.
+            <h3 className="text-2xl font-bold text-white">
+              {isFr ? 'Demande Envoyée !' : 'Request Submitted!'}
+            </h3>
+            <p className="text-sm text-zinc-300 max-w-sm mx-auto">
+              {isFr
+                ? `Merci ${formData.name || ''} ! Notre équipe va vérifier les disponibilités et vous contacter rapidement avec les créneaux disponibles.`
+                : `Thank you, ${formData.name || ''}! Our team will check available times and contact you promptly.`}
             </p>
             <button
               onClick={() => {
                 setSubmitted(false);
                 onClose();
               }}
-              className="mt-4 px-6 py-2.5 rounded-full bg-white text-black font-semibold text-sm hover:bg-neutral-200 transition-colors cursor-pointer"
+              className="mt-4 px-8 py-3 rounded-full bg-white text-black font-bold text-sm hover:bg-zinc-200 transition-colors cursor-pointer shadow-lg"
             >
-              Done
+              {isFr ? 'Fermer' : 'Done'}
             </button>
           </div>
         ) : (
           <div>
-            <div className="mb-6">
-              <span className="text-xs uppercase font-bold tracking-widest text-white/60">
-                SmileLab Clinic
+            <div className="mb-5">
+              <span className="text-xs uppercase font-bold tracking-widest text-zinc-400">
+                GENEVA DENTAL CLINIC
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-                Book Your Consultation
+              <h2 className="text-2xl sm:text-3xl font-black text-white mt-1 tracking-tight">
+                {isFr ? 'Disponibilités & Consultation' : 'Check Availability'}
               </h2>
-              <p className="text-sm text-white/80 mt-1">
-                Experience precision dental restoration tailored for your confident smile.
+              <p className="text-xs sm:text-sm text-zinc-300 mt-1">
+                {isFr
+                  ? 'Remplissez vos coordonnées pour vérifier les créneaux et horaires disponibles.'
+                  : 'Fill in your details to check our available dates and consultation times.'}
               </p>
             </div>
 
@@ -88,7 +105,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
               href="https://api.whatsapp.com/send?phone=+41788509393"
               target="_blank"
               rel="noopener noreferrer"
-              className="mb-5 flex items-center justify-between p-3.5 rounded-2xl bg-neutral-900 border border-emerald-500/30 hover:border-emerald-500/60 hover:bg-neutral-850 transition-all group cursor-pointer"
+              className="mb-5 flex items-center justify-between p-3.5 rounded-2xl bg-zinc-900/90 border border-emerald-500/30 hover:border-emerald-500/60 hover:bg-zinc-850 transition-all group cursor-pointer"
             >
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/40">
@@ -98,92 +115,103 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                 </div>
                 <div>
                   <div className="text-xs font-bold text-white flex items-center gap-1.5">
-                    <span>Falar no WhatsApp</span>
+                    <span>{isFr ? 'WhatsApp Direct' : 'Direct WhatsApp'}</span>
                     <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                   </div>
                   <div className="text-[11px] text-emerald-400 font-mono">+41 78 850 93 93</div>
                 </div>
               </div>
-              <div className="text-xs font-semibold text-white/80 group-hover:text-white flex items-center gap-1">
-                <span>Abrir Chat</span>
-                <span className="text-emerald-400 font-bold">→</span>
+              <div className="text-xs font-semibold text-zinc-300 group-hover:text-white flex items-center gap-1">
+                <span>{isFr ? 'Ouvrir Chat' : 'Open Chat'}</span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-emerald-400" />
               </div>
             </a>
 
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Nom & Prénom */}
               <div>
-                <label className="block text-xs font-semibold text-white/90 mb-1.5 uppercase tracking-wider">
-                  Full Name
+                <label className="block text-xs font-semibold text-zinc-300 mb-1.5 uppercase tracking-wider">
+                  {isFr ? 'Nom & Prénom' : 'Full Name (First & Last)'} <span className="text-red-400">*</span>
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3.5 top-3 w-4 h-4 text-white/40" />
+                  <User className="absolute left-3.5 top-3 w-4 h-4 text-zinc-400" />
                   <input
                     type="text"
                     required
-                    placeholder="Jane Doe"
+                    placeholder={isFr ? 'Ex: Jean Dupont' : 'e.g. John Doe'}
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full bg-neutral-900 border border-white/20 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-white transition-colors"
+                    className="w-full bg-zinc-900 border border-white/20 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-white transition-colors"
                   />
                 </div>
               </div>
 
+              {/* Email & Phone */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-white/90 mb-1.5 uppercase tracking-wider">
-                    Email Address
+                  <label className="block text-xs font-semibold text-zinc-300 mb-1.5 uppercase tracking-wider">
+                    {isFr ? 'Adresse Email' : 'Email Address'} <span className="text-red-400">*</span>
                   </label>
                   <div className="relative">
-                    <Mail className="absolute left-3.5 top-3 w-4 h-4 text-white/40" />
+                    <Mail className="absolute left-3.5 top-3 w-4 h-4 text-zinc-400" />
                     <input
                       type="email"
                       required
-                      placeholder="jane@example.com"
+                      placeholder="nom@exemple.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full bg-neutral-900 border border-white/20 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-white transition-colors"
+                      className="w-full bg-zinc-900 border border-white/20 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-white transition-colors"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-white/90 mb-1.5 uppercase tracking-wider">
-                    Phone Number
+                  <label className="block text-xs font-semibold text-zinc-300 mb-1.5 uppercase tracking-wider">
+                    {isFr ? 'Numéro de Téléphone' : 'Phone Number'} <span className="text-red-400">*</span>
                   </label>
                   <div className="relative">
-                    <Phone className="absolute left-3.5 top-3 w-4 h-4 text-white/40" />
+                    <Phone className="absolute left-3.5 top-3 w-4 h-4 text-zinc-400" />
                     <input
                       type="tel"
-                      placeholder="+1 (555) 019-2834"
+                      required
+                      placeholder="+41 78 850 93 93"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full bg-neutral-900 border border-white/20 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-white transition-colors"
+                      className="w-full bg-zinc-900 border border-white/20 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-white transition-colors"
                     />
                   </div>
                 </div>
               </div>
 
+              {/* Message / Motif / Problème */}
               <div>
-                <label className="block text-xs font-semibold text-white/90 mb-1.5 uppercase tracking-wider">
-                  Preferred Date
+                <label className="block text-xs font-semibold text-zinc-300 mb-1.5 uppercase tracking-wider">
+                  {isFr ? 'Votre besoin ou problème dentaire' : 'Your concern or reason for visit'}
                 </label>
                 <div className="relative">
-                  <Calendar className="absolute left-3.5 top-3 w-4 h-4 text-white/40" />
-                  <input
-                    type="date"
-                    value={formData.date}
-                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                    className="w-full bg-neutral-900 border border-white/20 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-white transition-colors"
+                  <MessageSquare className="absolute left-3.5 top-3 w-4 h-4 text-zinc-400" />
+                  <textarea
+                    rows={3}
+                    placeholder={
+                      isFr
+                        ? 'Décrivez ce que vous souhaitez faire (ex: blanchiment, facettes, implant, bilan, douleur...)'
+                        : 'Describe what you would like to do (e.g. veneers, implants, check-up, pain...)'
+                    }
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    className="w-full bg-zinc-900 border border-white/20 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-white transition-colors resize-none"
                   />
                 </div>
               </div>
 
+              {/* Action Button (Neutral Check Availability) */}
               <button
                 type="submit"
                 id="btn-submit-consultation"
-                className="w-full mt-2 py-3 px-6 rounded-full bg-white text-black font-bold text-sm tracking-wide hover:bg-neutral-200 active:scale-[0.99] transition-all cursor-pointer shadow-lg"
+                className="w-full mt-2 py-3.5 px-6 rounded-full bg-white text-black font-extrabold text-sm uppercase tracking-wider hover:bg-zinc-200 active:scale-[0.98] transition-all cursor-pointer shadow-lg flex items-center justify-center gap-2 group"
               >
-                Confirm Consultation Request
+                <span>{isFr ? 'Vérifier les disponibilités & horaires' : 'Check Available Dates & Times'}</span>
+                <ArrowUpRight className="w-4 h-4 text-black group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </button>
             </form>
           </div>
