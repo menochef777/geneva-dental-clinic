@@ -68,6 +68,13 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('Home');
   const t = TRANSLATIONS[lang];
 
+  useEffect(() => {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="min-h-screen bg-black text-white selection:bg-white selection:text-black">
       {/* 1st Section: Hero Banner (100% Full-Screen Edge-to-Edge) */}

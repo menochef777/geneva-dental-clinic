@@ -2552,14 +2552,34 @@
       }
     }
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeModal();
+    // Ensure reload always starts at Section 1 (Hero)
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
+    window.addEventListener('beforeunload', () => {
+      window.scrollTo(0, 0);
+    });
+
+    window.addEventListener('load', () => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      const hero = document.getElementById('genevadentalclinic-hero-banner');
+      if (hero) {
+        hero.scrollIntoView({ behavior: 'instant', block: 'start' });
+      }
     });
 
     // Initialize French as default on page load and start PillNav
     setLanguage('FR');
-    window.addEventListener('DOMContentLoaded', initPillNav);
-    setTimeout(initPillNav, 50);
+    window.addEventListener('DOMContentLoaded', () => {
+      window.scrollTo(0, 0);
+      initPillNav();
+    });
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      initPillNav();
+    }, 50);
   </script>
 </body>
 </html>
