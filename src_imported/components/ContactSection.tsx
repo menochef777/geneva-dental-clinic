@@ -86,77 +86,101 @@ const CLINICS: ClinicInfo[] = [
 
 interface ContactSectionProps {
   id?: string;
+  lang?: 'en' | 'fr';
+  t?: Record<string, string>;
 }
 
-export const ContactSection: React.FC<ContactSectionProps> = ({ id = 'contact' }) => {
+export const ContactSection: React.FC<ContactSectionProps> = ({ id = 'contact', lang = 'fr', t }) => {
   const [activeMap, setActiveMap] = useState<'saintleger' | 'prevost'>('saintleger');
+  const [mapInteractive, setMapInteractive] = useState<boolean>(false);
 
   const mapSrc =
     activeMap === 'saintleger'
-      ? 'https://maps.google.com/maps?q=Rue+Saint-L%C3%A9ger+8,+1204+Gen%C3%A8ve,+Switzerland&t=&z=17&ie=UTF8&iwloc=B&output=embed'
-      : 'https://maps.google.com/maps?q=Rue+Pr%C3%A9vost-Martin+4B,+1205+Gen%C3%A8ve,+Switzerland&t=&z=17&ie=UTF8&iwloc=B&output=embed';
+      ? 'https://maps.google.com/maps?q=Geneva%20Dental%20Clinic,%20Rue%20Saint-L%C3%A9ger%208,%20Gen%C3%A8ve&t=&z=15&ie=UTF8&iwloc=&output=embed'
+      : 'https://maps.google.com/maps?q=Rue%20Pr%C3%A9vost-Martin%204B,%201205%20Gen%C3%A8ve&t=&z=15&ie=UTF8&iwloc=&output=embed';
 
   return (
     <section
       id={id}
-      className="w-full bg-[#E5E5E5] rounded-[32px] sm:rounded-[40px] flex flex-col pt-12 md:pt-20 px-4 md:px-8 pb-12 gap-8 md:gap-12 mt-6 sm:mt-10 overflow-hidden shadow-2xl transition-all font-sans"
+      className="w-full bg-transparent flex flex-col pt-8 md:pt-12 px-2 md:px-6 pb-12 gap-8 md:gap-10 transition-all font-sans select-none"
     >
       {/* Cabeçalho */}
       <div className="text-center space-y-2 max-w-2xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-black tracking-tight leading-[1.05]">
-          Get in touch, let us know <br className="hidden md:block" /> how we can help
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white [text-shadow:_0_2px_10px_rgb(0_0_0_/_80%)] tracking-tight leading-[1.05]">
+          {t?.contactTitle || (lang === 'fr' ? 'Prenez contact, dites-nous comment nous pouvons vous aider' : 'Get in touch, let us know how we can help')}
         </h2>
       </div>
 
-      {/* Container Principal Dividido em Duas Colunas Lado a Lado (Fundo bg-stone-100 / Branco) */}
-      <div className="bg-stone-100 rounded-3xl p-4 sm:p-6 md:p-8 flex flex-col md:flex-row gap-6 md:gap-8 max-w-5xl mx-auto w-full shadow-sm border border-neutral-200/70">
+      {/* Container Principal Dividido em Duas Colunas Lado a Lado (Vidro Escuro) */}
+      <div className="bg-zinc-950/80 backdrop-blur-xl border border-white/10 rounded-3xl p-4 sm:p-6 md:p-8 flex flex-col md:flex-row gap-6 md:gap-8 max-w-5xl mx-auto w-full shadow-2xl">
         
-        {/* Coluna Esquerda: Mapa Interativo */}
-        <div className="flex-1 rounded-2xl overflow-hidden min-h-[400px] md:min-h-[450px] relative shadow-inner border border-neutral-200/60 bg-zinc-200">
+        {/* Coluna Esquerda: Mapa Interativo com Anti-Lag Overlay */}
+        <div 
+          onMouseLeave={() => setMapInteractive(false)}
+          className="flex-1 relative w-full h-full min-h-[400px] md:min-h-[450px] rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl bg-zinc-900"
+        >
           <iframe
             key={activeMap}
             src={mapSrc}
-            className="w-full h-full min-h-[400px] md:min-h-[450px] border-0"
-            allowFullScreen={false}
             loading="lazy"
-            title={activeMap === 'saintleger' ? 'Geneva Dental Clinic - Saint Léger' : 'Geneva Dental Clinic - Prévost-Martin'}
+            title="Google Maps"
+            className={`w-full h-full min-h-[400px] md:min-h-[450px] border-0 transition-opacity duration-300 ${
+              !mapInteractive ? 'pointer-events-none' : 'pointer-events-auto'
+            }`}
+            allowFullScreen={false}
           />
 
           {/* Badge sutil indicando alfinete ativo */}
-          <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-md border border-neutral-200 flex items-center gap-2 pointer-events-none">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span className="text-xs font-bold text-black">
-              {activeMap === 'saintleger' ? 'Rue Saint Léger, 8' : 'Rue Prévost-Martin 4B'}
+          <div className="absolute top-4 left-4 z-20 bg-black/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 flex items-center gap-2 pointer-events-none shadow-md">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span className="text-xs font-bold text-white">
+              {activeMap === 'saintleger' ? 'Rue Saint-Léger 8' : 'Rue Prévost-Martin 4B'}
             </span>
           </div>
+
+          {/* Overlay Anti-Lag para Mobile/Desktop (libera scroll) */}
+          {!mapInteractive && (
+            <div
+              onClick={() => setMapInteractive(true)}
+              className="absolute inset-0 z-10 bg-black/40 backdrop-blur-[2px] flex flex-col items-center justify-center cursor-pointer transition-all hover:bg-black/30 select-none group"
+            >
+              <button className="px-5 py-2.5 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 text-white font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2 shadow-xl group-hover:scale-105 transition-transform pointer-events-none">
+                <span>👆 {lang === 'fr' ? 'Toucher pour interagir' : 'Tap to interact with map'}</span>
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Coluna Direita: Seletor de Clínicas */}
         <div className="flex-1 flex flex-col justify-center gap-4">
           <div className="mb-2">
-            <h3 className="text-3xl font-bold text-black tracking-tight leading-tight">
-              Choose your clinic
+            <h3 className="text-2xl sm:text-3xl font-bold text-white [text-shadow:_0_2px_10px_rgb(0_0_0_/_80%)] tracking-tight leading-tight">
+              {t?.chooseClinic || (lang === 'fr' ? 'Choisissez votre clinique' : 'Choose your clinic')}
             </h3>
-            <p className="text-sm font-medium text-neutral-500 mt-1">
-              Select a location to view on the map or tap the WhatsApp button to chat directly with our team.
+            <p className="text-xs sm:text-sm font-medium text-zinc-300 mt-1">
+              {t?.chooseClinicSub || (lang === 'fr' ? "Sélectionnez un lieu pour l'afficher sur la carte ou cliquez sur le bouton WhatsApp pour échanger directement avec notre équipe." : 'Select a location to view on the map or tap the WhatsApp button to chat directly with our team.')}
             </p>
           </div>
 
-          {/* Cartão Clínica 1 (Geneva Dental Clinic) */}
+          {/* Cartão Clínica 1 (Saint-Léger) */}
           <div
             onClick={() => setActiveMap('saintleger')}
-            className={`w-full rounded-2xl p-5 flex items-center justify-between border-2 transition-all duration-300 cursor-pointer group ${
+            className={`w-full rounded-2xl p-5 flex items-center justify-between transition-all duration-300 cursor-pointer group ${
               activeMap === 'saintleger'
-                ? 'bg-white border-black shadow-md scale-[1.01]'
-                : 'bg-zinc-100 border-transparent hover:bg-white/80 hover:border-neutral-300'
+                ? 'bg-white text-black shadow-xl scale-[1.01] border-2 border-white'
+                : 'bg-white/5 backdrop-blur-md text-white border border-white/10 hover:border-white/20 hover:bg-white/10'
             }`}
           >
             <div className="flex flex-col gap-1 min-w-0 pr-3">
-              <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-400 group-hover:text-black transition-colors">
+              <span className={`text-[11px] font-bold uppercase tracking-widest transition-colors ${
+                activeMap === 'saintleger' ? 'text-slate-700' : 'text-zinc-400 group-hover:text-zinc-200'
+              }`}>
                 GENEVA DENTAL CLINIC
               </span>
-              <span className="text-sm md:text-base font-bold text-black leading-snug">
-                Rue Saint Léger, 8, 1204 Genève
+              <span className={`text-sm md:text-base font-extrabold leading-snug ${
+                activeMap === 'saintleger' ? 'text-black' : 'text-zinc-200 group-hover:text-white'
+              }`}>
+                Rue Saint-Léger 8, 1204 Genève
               </span>
             </div>
 
@@ -165,10 +189,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ id = 'contact' }
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className={`w-11 h-11 rounded-full text-white flex items-center justify-center shrink-0 shadow-sm transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer ${
+              className={`w-11 h-11 rounded-full flex items-center justify-center shrink-0 shadow-md transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer ${
                 activeMap === 'saintleger'
-                  ? 'bg-green-500'
-                  : 'bg-black group-hover:bg-green-500'
+                  ? 'bg-emerald-500 text-white'
+                  : 'bg-white/10 text-white hover:bg-emerald-500'
               }`}
               title="Chat on WhatsApp"
             >
@@ -179,17 +203,21 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ id = 'contact' }
           {/* Cartão Clínica 2 (Prévost-Martin) */}
           <div
             onClick={() => setActiveMap('prevost')}
-            className={`w-full rounded-2xl p-5 flex items-center justify-between border-2 transition-all duration-300 cursor-pointer group ${
+            className={`w-full rounded-2xl p-5 flex items-center justify-between transition-all duration-300 cursor-pointer group ${
               activeMap === 'prevost'
-                ? 'bg-white border-black shadow-md scale-[1.01]'
-                : 'bg-zinc-100 border-transparent hover:bg-white/80 hover:border-neutral-300'
+                ? 'bg-white text-black shadow-xl scale-[1.01] border-2 border-white'
+                : 'bg-white/5 backdrop-blur-md text-white border border-white/10 hover:border-white/20 hover:bg-white/10'
             }`}
           >
             <div className="flex flex-col gap-1 min-w-0 pr-3">
-              <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-400 group-hover:text-black transition-colors">
+              <span className={`text-[11px] font-bold uppercase tracking-widest transition-colors ${
+                activeMap === 'prevost' ? 'text-slate-700' : 'text-zinc-400 group-hover:text-zinc-200'
+              }`}>
                 CLINIC 2
               </span>
-              <span className="text-sm md:text-base font-bold text-black leading-snug">
+              <span className={`text-sm md:text-base font-extrabold leading-snug ${
+                activeMap === 'prevost' ? 'text-black' : 'text-zinc-200 group-hover:text-white'
+              }`}>
                 Rue Prévost-Martin 4B, 1205 Genève
               </span>
             </div>
@@ -199,10 +227,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ id = 'contact' }
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className={`w-11 h-11 rounded-full text-white flex items-center justify-center shrink-0 shadow-sm transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer ${
+              className={`w-11 h-11 rounded-full flex items-center justify-center shrink-0 shadow-md transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer ${
                 activeMap === 'prevost'
-                  ? 'bg-green-500'
-                  : 'bg-black group-hover:bg-green-500'
+                  ? 'bg-emerald-500 text-white'
+                  : 'bg-white/10 text-white hover:bg-emerald-500'
               }`}
               title="Chat on WhatsApp"
             >
@@ -218,14 +246,14 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ id = 'contact' }
         {/* Email */}
         <a
           href="mailto:info@geneva-dental.ch"
-          className="bg-white rounded-2xl p-5 md:p-6 flex items-center gap-4 shadow-sm border border-neutral-200/60 hover:shadow-md transition-shadow group"
+          className="bg-zinc-950/80 backdrop-blur-xl border border-white/10 rounded-2xl p-5 md:p-6 flex items-center gap-4 group cursor-pointer shadow-xl hover:border-white/20 transition-all"
         >
-          <div className="w-12 h-12 bg-black text-white rounded-xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+          <div className="w-12 h-12 bg-white/10 border border-white/20 text-white rounded-xl flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:border-white transition-transform">
             <MailIcon />
           </div>
           <div className="min-w-0">
-            <p className="text-xs text-neutral-500 font-semibold mb-0.5">Email address</p>
-            <p className="text-sm md:text-base text-black font-bold truncate">info@geneva-dental.ch</p>
+            <p className="text-xs text-zinc-400 font-semibold mb-0.5">Email address</p>
+            <p className="text-sm md:text-base text-white font-bold truncate">info@geneva-dental.ch</p>
           </div>
         </a>
 
@@ -234,25 +262,25 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ id = 'contact' }
           href="https://api.whatsapp.com/send?phone=+41788509393"
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-white rounded-2xl p-5 md:p-6 flex items-center gap-4 shadow-sm border border-neutral-200/60 hover:shadow-md transition-shadow group"
+          className="bg-zinc-950/80 backdrop-blur-xl border border-white/10 rounded-2xl p-5 md:p-6 flex items-center gap-4 group cursor-pointer shadow-xl hover:border-white/20 transition-all"
         >
-          <div className="w-12 h-12 bg-black text-white rounded-xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+          <div className="w-12 h-12 bg-white/10 border border-white/20 text-white rounded-xl flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:border-white transition-transform">
             <PhoneIcon />
           </div>
           <div className="min-w-0">
-            <p className="text-xs text-neutral-500 font-semibold mb-0.5">Phone Number</p>
-            <p className="text-sm md:text-base text-black font-bold">+41 78 850 93 93</p>
+            <p className="text-xs text-zinc-400 font-semibold mb-0.5">Phone Number</p>
+            <p className="text-sm md:text-base text-white font-bold">+41 78 850 93 93</p>
           </div>
         </a>
 
         {/* Endereço */}
-        <div className="bg-white rounded-2xl p-5 md:p-6 flex items-center gap-4 shadow-sm border border-neutral-200/60">
-          <div className="w-12 h-12 bg-black text-white rounded-xl flex items-center justify-center shrink-0">
+        <div className="bg-zinc-950/80 backdrop-blur-xl border border-white/10 rounded-2xl p-5 md:p-6 flex items-center gap-4 shadow-xl">
+          <div className="w-12 h-12 bg-white/10 border border-white/20 text-white rounded-xl flex items-center justify-center shrink-0">
             <MapPinIcon />
           </div>
           <div className="min-w-0">
-            <p className="text-xs text-neutral-500 font-semibold mb-0.5">Our Location</p>
-            <p className="text-sm md:text-base text-black font-bold">Genève, Switzerland</p>
+            <p className="text-xs text-zinc-400 font-semibold mb-0.5">Our Location</p>
+            <p className="text-sm md:text-base text-white font-bold">Genève, Switzerland</p>
           </div>
         </div>
       </div>
